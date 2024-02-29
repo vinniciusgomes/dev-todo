@@ -7,15 +7,17 @@ import { Icons } from "@/components/Icons";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 export function AuthForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm();
   const { toast } = useToast();
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    try {
-      console.log(data);
+    setIsLoading(true);
 
+    try {
       await signIn("email", {
         email: data.email,
         redirect: false,
@@ -25,8 +27,34 @@ export function AuthForm() {
         title: "Check your email",
         description: "We sent you a login link. Please check your email.",
       });
-    } catch (err) {}
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong.",
+      });
+    }
+
+    setIsLoading(false);
   });
+
+  const handleSignInWithGithub = async () => {
+    setIsLoading(true);
+
+    try {
+      await signIn("github", {
+        redirect: false,
+      });
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong.",
+      });
+    }
+
+    setIsLoading(false);
+  };
 
   return (
     <div className="grid gap-6">
@@ -46,7 +74,12 @@ export function AuthForm() {
               {...form.register("email")}
             />
           </div>
-          <Button type="submit">Sign In with Email</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Sign In with Email
+          </Button>
         </div>
       </form>
       <div className="relative">
@@ -59,8 +92,17 @@ export function AuthForm() {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button">
-        <Icons.gitHub className="mr-2 h-4 w-4" />
+      <Button
+        variant="outline"
+        type="button"
+        disabled={isLoading}
+        onClick={handleSignInWithGithub}
+      >
+        {isLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Icons.gitHub className="mr-2 h-4 w-4" />
+        )}{" "}
         GitHub
       </Button>
     </div>
