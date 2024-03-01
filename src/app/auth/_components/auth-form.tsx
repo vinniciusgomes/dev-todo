@@ -1,65 +1,57 @@
-"use client";
+'use client'
 
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/Icons";
-import { useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
-import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
+import { signIn } from 'next-auth/react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
+import { Icons } from '@/components/icon'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+
+const signInForm = z.object({
+  email: z.string().email(),
+})
+
+type SignInForm = z.infer<typeof signInForm>
 
 export function AuthForm() {
-  const [isLoading, setIsLoading] = useState(false);
-  const form = useForm();
-  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = form.handleSubmit(async (data) => {
-    setIsLoading(true);
+  const { handleSubmit, register } = useForm<SignInForm>()
+
+  const onSubmit = async (data: SignInForm) => {
+    if (!data.email)
+      return toast.error('Invalid email', {
+        description: 'Please enter a valid email.',
+      })
+
+    setIsLoading(true)
 
     try {
-      await signIn("email", {
+      await signIn('email', {
         email: data.email,
         redirect: false,
-      });
+      })
 
-      toast({
-        title: "Check your email",
-        description: "We sent you a login link. Please check your email.",
-      });
+      toast.success('Check your email', {
+        description: 'We sent you a login link. Please check your email.',
+      })
     } catch (err) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Something went wrong.",
-      });
+      toast.error('Error', {
+        description: 'Something went wrong.',
+      })
     }
 
-    setIsLoading(false);
-  });
-
-  const handleSignInWithGithub = async () => {
-    setIsLoading(true);
-
-    try {
-      await signIn("github", {
-        redirect: false,
-      });
-    } catch (err) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Something went wrong.",
-      });
-    }
-
-    setIsLoading(false);
-  };
+    setIsLoading(false)
+  }
 
   return (
     <div className="grid gap-6">
-      <form onSubmit={handleSubmit}>
-        <div className="grid gap-2">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid gap-4">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Email
@@ -71,7 +63,7 @@ export function AuthForm() {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              {...form.register("email")}
+              {...register('email')}
             />
           </div>
           <Button type="submit" disabled={isLoading}>
@@ -92,19 +84,27 @@ export function AuthForm() {
           </span>
         </div>
       </div>
-      <Button
-        variant="outline"
-        type="button"
-        disabled={isLoading}
-        onClick={handleSignInWithGithub}
-      >
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        GitHub
-      </Button>
+      <div className="grid gap-4">
+        <div className="grid grid-cols-2 gap-4">
+          <Button variant="outline" type="button" disabled={isLoading}>
+            <Icons.google className="mr-2 h-4 w-4" />
+            Login with Google
+          </Button>
+          <Button variant="outline" type="button" disabled={isLoading}>
+            <Icons.gitHub className="mr-2 h-4 w-4" />
+            Login with GitHub
+          </Button>
+        </div>
+        <Button
+          variant="outline"
+          type="button"
+          className="w-full"
+          disabled={isLoading}
+        >
+          <Icons.apple className="mr-2 h-4 w-4" />
+          Login with Apple
+        </Button>
+      </div>
     </div>
-  );
+  )
 }

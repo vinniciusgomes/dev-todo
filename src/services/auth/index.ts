@@ -1,20 +1,20 @@
-import NextAuth from "next-auth";
-import EmailProvider from "next-auth/providers/email";
-import GitHubProvider from "next-auth/providers/github";
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import NextAuth from 'next-auth'
+import EmailProvider from 'next-auth/providers/email'
+import GitHubProvider from 'next-auth/providers/github'
 
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "../database";
+import { prisma } from '../database'
 
 export const {
   handlers: { GET, POST },
   auth,
 } = NextAuth({
   pages: {
-    signIn: "/auth",
-    error: "/auth",
-    signOut: "/auth",
-    verifyRequest: "/auth",
-    newUser: "/app",
+    signIn: '/auth',
+    error: '/auth',
+    signOut: '/auth',
+    verifyRequest: '/auth',
+    newUser: '/app',
   },
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -27,4 +27,4 @@ export const {
       from: process.env.EMAIL_FROM,
     }),
   ],
-});
+})
