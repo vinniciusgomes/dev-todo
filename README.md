@@ -1,4 +1,15 @@
-# 🚧 DevToDo - To-do list application for developers 🚧
+<p align="center">
+  <img src=".github/logo.svg" alt="logo" style="width:100px">
+</p>
+
+<h1 align="center">
+  DevToDo - To-do list application for developers 🚧
+</h1>
+
+<p align="center">
+  <img src=".github/home.png" alt="Screenshot">
+</p>
+
 
 DevToDo is a to-do list application developed specifically to meet the needs of developers. It offers a simple and effective way to manage tasks, projects, and software development goals.
 
