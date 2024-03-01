@@ -1,7 +1,7 @@
 import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 
-import { Icons } from '@/components'
+import { Icons } from '@/components/icon'
 
 import { AuthForm } from './_components'
 
