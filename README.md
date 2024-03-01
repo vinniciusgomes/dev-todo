@@ -1,3 +1,20 @@
+# 🚧 DevToDo - To-do list application for developers 🚧
+
+DevToDo is a to-do list application developed specifically to meet the needs of developers. It offers a simple and effective way to manage tasks, projects, and software development goals.
+
+## Features
+
+- [ ] **Task Management:** Easily add, edit, and delete tasks. Mark tasks as complete or incomplete and prioritize your activities.
+- [ ] **Integration with Development Tools:** Sync tasks with project management platforms like GitHub, GitLab, Trello, Jira, among others.
+- [ ] **Multi-device Support:** Access your tasks anywhere, either through the mobile app (PWA) or the web application.
+- [ ] **Customization and Flexibility:** Add tags or labels to tasks, filter and search tasks easily, and customize the interface according to your preferences.
+- [ ] **Integration with Productivity Tools:** Receive reminders and personalized notifications for your tasks, and integrate with calendar apps to track deadlines.
+- [ ] **Collaboration and Sharing:** Share task lists with team members, assign tasks, and comment on specific activities.
+- [ ] **Analytics and Reports:** Analyze your personal productivity, track project progress, and visualize data through charts and reports.
+- [ ] **Security and Privacy:** Protect your data with encryption and control who can access and modify your tasks.
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -29,8 +46,10 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Contribuição
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contribuições são bem-vindas! Se você encontrar algum problema ou tiver alguma sugestão de melhoria, sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Licença
+
+Este projeto está licenciado sob a Licença MIT. Para mais detalhes, consulte o arquivo [LICENSE](LICENSE).
