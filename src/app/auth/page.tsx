@@ -1,21 +1,26 @@
 import { ChevronLeft } from 'lucide-react'
+import { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Icons } from '@/components/icon'
 
 import { AuthForm } from './_components'
 
+export const metadata: Metadata = {
+  title: 'Auth',
+}
+
 export default function Page() {
   return (
-    <div className="relative mx-auto flex h-screen w-full flex-col justify-center px-4 sm:w-[450px] lg:px-0">
+    <div className="relative mx-auto flex h-screen w-full flex-col justify-center px-4 sm:w-[450px] sm:px-0">
       <Link
         href="/"
-        className="absolute left-4 top-8 flex h-10 items-center gap-2 text-sm font-semibold text-muted-foreground lg:hidden"
+        className="absolute left-4 top-8 flex h-10 items-center gap-2 text-sm font-semibold text-muted-foreground sm:hidden"
       >
         <ChevronLeft className="h-4 w-4" />
         Home
       </Link>
-      <div className="flex flex-col items-center space-y-2 lg:items-start">
+      <div className="flex flex-col items-center space-y-2 sm:items-start">
         <Icons.appIcon className="mb-2 h-12 w-12 fill-primary" />
         <h1 className="text-2xl font-semibold tracking-tight">
           Log in to DevTodo

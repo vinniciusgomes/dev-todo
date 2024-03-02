@@ -3,13 +3,13 @@
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Icons } from '@/components/icon'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useToast } from '@/components/ui/use-toast'
 
 const signInForm = z.object({
   email: z.string().email(),
@@ -19,12 +19,13 @@ type SignInForm = z.infer<typeof signInForm>
 
 export function AuthForm() {
   const [isLoading, setIsLoading] = useState(false)
-
+  const { toast } = useToast()
   const { handleSubmit, register } = useForm<SignInForm>()
 
   const onSubmit = async (data: SignInForm) => {
     if (!data.email)
-      return toast.error('Invalid email', {
+      return toast({
+        title: 'Invalid email',
         description: 'Please enter a valid email.',
       })
 
@@ -36,11 +37,13 @@ export function AuthForm() {
         redirect: false,
       })
 
-      toast.success('Check your email', {
+      toast({
+        title: 'Check your email',
         description: 'We sent you a login link. Please check your email.',
       })
     } catch (err) {
-      toast.error('Error', {
+      toast({
+        title: 'Error',
         description: 'Something went wrong.',
       })
     }
@@ -85,7 +88,7 @@ export function AuthForm() {
         </div>
       </div>
       <div className="grid gap-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="flex grid-cols-2 flex-col gap-4 sm:grid">
           <Button variant="outline" type="button" disabled={isLoading}>
             <Icons.google className="mr-2 h-4 w-4" />
             Login with Google

@@ -1,6 +1,14 @@
 'use client'
 
-import { Plus } from 'lucide-react'
+import {
+  Calendar,
+  CalendarDays,
+  CheckSquare,
+  GalleryVerticalEnd,
+  Plus,
+  Sunrise,
+  Trash2,
+} from 'lucide-react'
 import { Session } from 'next-auth'
 
 import { Icons } from '@/components/icon'
@@ -42,8 +50,9 @@ export function Navbar({ user }: Props) {
                   variant="ghost"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-sm">🏠</span>
-                    <span className="text-sm">Home</span>
+                    <GalleryVerticalEnd className="h-4 w-4 text-muted-foreground" />
+
+                    <span className="text-sm">All</span>
                   </div>
                   <Badge variant="outline">24</Badge>
                 </Button>
@@ -54,7 +63,7 @@ export function Navbar({ user }: Props) {
                   variant="ghost"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-sm">🗓️</span>
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm">Today</span>
                   </div>
                   <Badge variant="outline">13</Badge>
@@ -66,8 +75,44 @@ export function Navbar({ user }: Props) {
                   variant="ghost"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-sm">✅</span>
+                    <Sunrise className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">Tomorrow</span>
+                  </div>
+                  <Badge variant="outline">11</Badge>
+                </Button>
+              </li>
+              <li>
+                <Button
+                  className="flex w-full items-center justify-between px-2"
+                  variant="ghost"
+                >
+                  <div className="flex items-center gap-2">
+                    <CalendarDays className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">Next 7 days</span>
+                  </div>
+                  <Badge variant="outline">11</Badge>
+                </Button>
+              </li>
+              <li>
+                <Button
+                  className="flex w-full items-center justify-between px-2"
+                  variant="ghost"
+                >
+                  <div className="flex items-center gap-2">
+                    <CheckSquare className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm">Completed</span>
+                  </div>
+                  <Badge variant="outline">11</Badge>
+                </Button>
+              </li>
+              <li>
+                <Button
+                  className="flex w-full items-center justify-between px-2"
+                  variant="ghost"
+                >
+                  <div className="flex items-center gap-2">
+                    <Trash2 className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">Trash</span>
                   </div>
                   <Badge variant="outline">11</Badge>
                 </Button>
