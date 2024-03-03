@@ -117,16 +117,6 @@ export function Navbar({ user }: Props) {
                   <Badge variant="outline">11</Badge>
                 </Button>
               </li>
-
-              <li>
-                <Button
-                  className="mt-4 flex w-full items-center justify-start gap-2 px-2"
-                  variant="ghost"
-                >
-                  <Plus className="h-4 w-4" />
-                  <span className="text-sm ">Create new list</span>
-                </Button>
-              </li>
             </ul>
           </div>
 
