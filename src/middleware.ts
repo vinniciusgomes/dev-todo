@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { getUrl } from '@/lib/get-url'
 
+const PRIVATE_PATHS = ['/app', '/settings']
+
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('authjs.session-token')
   const pathname = request.nextUrl.pathname
@@ -10,7 +12,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(getUrl('/app')))
   }
 
-  if (pathname.includes('/app') && !token) {
+  if (PRIVATE_PATHS.some((path) => pathname.startsWith(path)) && !token) {
     return NextResponse.redirect(new URL(getUrl('/auth')))
   }
 

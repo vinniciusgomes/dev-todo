@@ -2,6 +2,7 @@
 
 import { Settings } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 
@@ -22,6 +23,7 @@ import {
 
 export function SettingsMenu() {
   const { setTheme } = useTheme()
+  const { push } = useRouter()
 
   return (
     <DropdownMenu>
@@ -38,9 +40,15 @@ export function SettingsMenu() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Upgrade</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => push('/settings/account')}>
+            Profile
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => push('/settings/plans')}>
+            Upgrade
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => push('/settings/account')}>
+            Settings
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
