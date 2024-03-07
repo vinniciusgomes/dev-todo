@@ -35,7 +35,7 @@ export default function Page() {
       </div>
 
       <p className="mt-6 px-8 text-center text-sm text-muted-foreground">
-        By clicking continue, you agree to our{' '}
+        By continuing, you agree to DevTodo's{' '}
         <Link
           href="/terms"
           className="underline underline-offset-4 hover:text-primary"
@@ -49,7 +49,7 @@ export default function Page() {
         >
           Privacy Policy
         </Link>
-        .
+        , and to receive periodic emails with updates.
       </p>
     </div>
   )
