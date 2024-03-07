@@ -65,10 +65,10 @@ export default function Account() {
             </span>
           </div>
           <div className="relative flex items-center">
-            <span className="absolute left-2 text-muted-foreground">@</span>
+            <span className="absolute left-4 text-muted-foreground">@</span>
             <Input
               placeholder="Your username"
-              className="pl-8 shadow-none"
+              className="pl-9 shadow-none"
               value="vinniciusgomes"
             />
           </div>

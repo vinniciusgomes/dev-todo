@@ -36,7 +36,7 @@ export function Sidebar() {
 
         <div className="mt-8 grid gap-8">
           <div>
-            <h3 className="text-md font-semibold">Geral</h3>
+            <h3 className="text-md font-semibold">General</h3>
             <ul className="mt-2 space-y-1">
               <SidebarNavItem
                 label="Lists"

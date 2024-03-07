@@ -40,6 +40,7 @@ export function SettingsMenu() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuItem disabled>General</DropdownMenuItem>
           <DropdownMenuItem onClick={() => push('/settings/account')}>
             Profile
           </DropdownMenuItem>
@@ -52,7 +53,7 @@ export function SettingsMenu() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>System</DropdownMenuItem>
+          <DropdownMenuItem disabled>System</DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>Theme</DropdownMenuSubTrigger>
             <DropdownMenuPortal>
@@ -72,7 +73,7 @@ export function SettingsMenu() {
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Links</DropdownMenuItem>
+        <DropdownMenuItem disabled>Links</DropdownMenuItem>
         <DropdownMenuItem>
           <Link
             href="https://github.com/vinniciusgomes/dev-todo"
