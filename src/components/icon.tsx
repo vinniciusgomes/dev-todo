@@ -311,4 +311,91 @@ export const Icons = {
       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
     </svg>
   ),
+  priorityUrgent: (props: IconProps) => (
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M3 1.346a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-10a2 2 0 00-2-2H3zm3.914 3h1.738L8.5 9.948H7.07l-.156-5.602zm1.809 7.164a.95.95 0 01-.938.938.933.933 0 110-1.867c.5 0 .934.417.938.929z"
+        fill="#FB773F"
+      />
+    </svg>
+  ),
+  priority0: (props: IconProps) => (
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        opacity={0.9}
+        d="M3.5 7.25h-2a.5.5 0 00-.5.5v.5a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-.5a.5.5 0 00-.5-.5zM8.5 7.25h-2a.5.5 0 00-.5.5v.5a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-.5a.5.5 0 00-.5-.5zM13.5 7.25h-2a.5.5 0 00-.5.5v.5a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-.5a.5.5 0 00-.5-.5z"
+        fill="#000"
+        fillOpacity={0.439216}
+      />
+    </svg>
+  ),
+  priority1: (props: IconProps) => (
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M3 8H2a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V9a1 1 0 00-1-1z"
+        fill="#737373"
+      />
+      <path
+        d="M8 5H7a1 1 0 00-1 1v7a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1zM13 2h-1a1 1 0 00-1 1v10a1 1 0 001 1h1a1 1 0 001-1V3a1 1 0 00-1-1z"
+        fill="#737373"
+        fillOpacity={0.4}
+      />
+    </svg>
+  ),
+  priority2: (props: IconProps) => (
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M3 8H2a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V9a1 1 0 00-1-1zM8 5H7a1 1 0 00-1 1v7a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1z"
+        fill="#737373"
+      />
+      <path
+        d="M13 2h-1a1 1 0 00-1 1v10a1 1 0 001 1h1a1 1 0 001-1V3a1 1 0 00-1-1z"
+        fill="#737373"
+        fillOpacity={0.4}
+      />
+    </svg>
+  ),
+  priority3: (props: IconProps) => (
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M3 8H2a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V9a1 1 0 00-1-1zM8 5H7a1 1 0 00-1 1v7a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1zM13 2h-1a1 1 0 00-1 1v10a1 1 0 001 1h1a1 1 0 001-1V3a1 1 0 00-1-1z"
+        fill="#737373"
+      />
+    </svg>
+  ),
 }

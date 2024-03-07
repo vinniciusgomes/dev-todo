@@ -1,15 +1,10 @@
 'use client'
 
 import { format } from 'date-fns'
-import {
-  ArrowDown,
-  ArrowRight,
-  ArrowUp,
-  CalendarIcon,
-  Plus,
-} from 'lucide-react'
+import { CalendarIcon, Plus } from 'lucide-react'
 import { useState } from 'react'
 
+import { Icons } from '@/components/icon'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Input } from '@/components/ui/input'
@@ -57,29 +52,41 @@ export function NewTask() {
           />
         </PopoverContent>
       </Popover>
-      <Select>
+      <Select defaultValue="none">
         <SelectTrigger className="w-full lg:w-[180px]">
           <SelectValue placeholder="Select a priority" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Priority</SelectLabel>
+            <SelectItem value="urgent">
+              <div className="flex items-center gap-1.5">
+                <Icons.priorityUrgent className="h-3 w-3" />
+                Urgent
+              </div>
+            </SelectItem>
             <SelectItem value="high">
               <div className="flex items-center gap-1.5">
-                <ArrowUp className="h-3 w-3" />
+                <Icons.priority3 className="h-3 w-3" />
                 High
               </div>
             </SelectItem>
             <SelectItem value="medium">
               <div className="flex items-center gap-1.5">
-                <ArrowRight className="h-3 w-3" />
+                <Icons.priority2 className="h-3 w-3" />
                 Medium
               </div>
             </SelectItem>
             <SelectItem value="low">
               <div className="flex items-center gap-1.5">
-                <ArrowDown className="h-3 w-3" />
+                <Icons.priority1 className="h-3 w-3" />
                 Low
+              </div>
+            </SelectItem>
+            <SelectItem value="none" defaultChecked>
+              <div className="flex items-center gap-1.5">
+                <Icons.priority0 className="h-3 w-3" />
+                No priority
               </div>
             </SelectItem>
           </SelectGroup>

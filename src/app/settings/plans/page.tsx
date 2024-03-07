@@ -1,3 +1,7 @@
 export default function Plans() {
-  return <main>Plans</main>
+  return (
+    <main>
+      <h1 className="text-xl">Plans</h1>
+    </main>
+  )
 }

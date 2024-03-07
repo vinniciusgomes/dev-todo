@@ -15,7 +15,7 @@ import { TaskItem } from './task-item'
 type Props = {
   listName: string
   listDescription?: string
-  listIcon?: string
+  listIcon?: React.ElementType
   defaultOpen?: boolean
 }
 
@@ -26,6 +26,7 @@ export function TaskList({
   defaultOpen,
 }: Props) {
   const [isOpen, setIsOpen] = useState(defaultOpen || false)
+  const Icon = listIcon
 
   return (
     <Collapsible
@@ -35,9 +36,10 @@ export function TaskList({
     >
       <div className="flex items-center justify-between space-x-4">
         <div>
-          <h4 className="font-semibold">
-            {listIcon} {listName}
-          </h4>
+          <div className="flex items-center">
+            {Icon && <Icon className="mr-2 h-4 w-4" />}
+            <h4 className="font-semibold">{listName}</h4>
+          </div>
           {listDescription && (
             <p className="text-sm text-muted-foreground">{listDescription}</p>
           )}
@@ -53,12 +55,12 @@ export function TaskList({
         <TaskItem
           task='Read "The Pragmatic Programmer"'
           description="Gain insights into software development best practices"
-          priority="low"
+          priority="urgent"
         />
         <TaskItem
           task='Study "Effective Communication"'
           description="Improve communication skills for better collaboration"
-          priority="low"
+          priority="none"
         />
         <TaskItem
           task='Complete "Machine Learning Project"'

@@ -1,15 +1,10 @@
 'use client'
 
 import { format } from 'date-fns'
-import {
-  ArrowDown,
-  ArrowRight,
-  ArrowUp,
-  CalendarIcon,
-  Plus,
-} from 'lucide-react'
+import { CalendarIcon, Plus } from 'lucide-react'
 import { useState } from 'react'
 
+import { Icons } from '@/components/icon'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -70,29 +65,41 @@ export function TaskDetails() {
           </div>
           <div className="flex h-9 items-center justify-between">
             <span className="text-sm text-muted-foreground">Priority</span>
-            <Select defaultValue="high">
+            <Select defaultValue="none">
               <SelectTrigger className="w-max border-none p-0 shadow-none outline-none focus:ring-0">
                 <SelectValue placeholder="Select a priority" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Priority</SelectLabel>
+                  <SelectItem value="urgent">
+                    <div className="flex items-center gap-1.5">
+                      <Icons.priorityUrgent className="h-3 w-3" />
+                      Urgent
+                    </div>
+                  </SelectItem>
                   <SelectItem value="high">
-                    <div className="flex items-center gap-2">
-                      <ArrowUp className="h-3 w-3" />
-                      <span>High</span>
+                    <div className="flex items-center gap-1.5">
+                      <Icons.priority3 className="h-3 w-3" />
+                      High
                     </div>
                   </SelectItem>
                   <SelectItem value="medium">
-                    <div className="flex items-center gap-2">
-                      <ArrowRight className="h-3 w-3" />
-                      <span>Medium</span>
+                    <div className="flex items-center gap-1.5">
+                      <Icons.priority2 className="h-3 w-3" />
+                      Medium
                     </div>
                   </SelectItem>
                   <SelectItem value="low">
-                    <div className="flex items-center gap-2">
-                      <ArrowDown className="h-3 w-3" />
-                      <span>Low</span>
+                    <div className="flex items-center gap-1.5">
+                      <Icons.priority1 className="h-3 w-3" />
+                      Low
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="none" defaultChecked>
+                    <div className="flex items-center gap-1.5">
+                      <Icons.priority0 className="h-3 w-3" />
+                      No priority
                     </div>
                   </SelectItem>
                 </SelectGroup>
@@ -108,7 +115,13 @@ export function TaskDetails() {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Lists</SelectLabel>
-                  <SelectItem value="today">📅 Today</SelectItem>
+                  <SelectItem value="today">
+                    <div className="flex items-center">
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+
+                      <span>Today</span>
+                    </div>
+                  </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>

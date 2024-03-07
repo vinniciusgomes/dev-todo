@@ -17,7 +17,7 @@ export default async function RootLayout({
     <main className="flex h-screen w-full">
       <Sidebar />
 
-      <ScrollArea className="no-scrollbar mx-auto h-screen max-w-[940px] flex-1">
+      <ScrollArea className="no-scrollbar mx-auto h-screen max-w-[800px] flex-1">
         <div className="px-4 py-6 lg:px-8 lg:py-16">{children}</div>
       </ScrollArea>
     </main>

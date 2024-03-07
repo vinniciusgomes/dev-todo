@@ -33,7 +33,7 @@ export function SidebarTag({
           <span className="text-sm">{label}</span>
         </div>
 
-        <Badge variant="outline">{count}</Badge>
+        <Badge variant="secondary">{count}</Badge>
       </Button>
     </li>
   )

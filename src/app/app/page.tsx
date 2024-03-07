@@ -1,5 +1,7 @@
 'use client'
 
+import { Calendar } from 'lucide-react'
+
 import { NewTask } from './_components/new-task'
 import { PhraseOfTheDay } from './_components/phrase-of-the-day'
 import { TaskList } from './_components/task-list'
@@ -21,7 +23,7 @@ export default function Page() {
       <div>
         <TaskList
           listName="Today"
-          listIcon="📅"
+          listIcon={Calendar}
           listDescription="All things to-do to day"
           defaultOpen
         />

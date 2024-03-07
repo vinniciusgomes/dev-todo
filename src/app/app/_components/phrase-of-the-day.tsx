@@ -4,7 +4,7 @@ export function PhraseOfTheDay() {
   return (
     <>
       <p className="mb-3 font-semibold">Phrase of the day</p>
-      <Card className="flex items-start gap-4 p-6 shadow-none">
+      <Card className="flex items-center gap-4 p-6 shadow-none">
         <span className="text-lg">💡</span>
         <span className="text-sm text-muted-foreground">
           It's a force that doesn't have much explanation, capable of moving

@@ -1,31 +1,90 @@
 'use client'
 
-import { ArrowDown, ArrowRight, ArrowUp, Eye } from 'lucide-react'
+import { Eye } from 'lucide-react'
 import { useState } from 'react'
 
+import { Icons } from '@/components/icon'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
+
+type Priority = 'none' | 'low' | 'medium' | 'high' | 'urgent'
 
 type Props = {
   task: string
   description?: string
-  priority?: 'low' | 'medium' | 'high'
+  priority?: Priority
+}
+
+type PriorityComponentProps = {
+  priority: Priority
+  children: React.ReactNode
+}
+
+const PriorityComponent = ({ priority, children }: PriorityComponentProps) => {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="text" size="text">
+            {children}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{priority} priority</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
 }
 
 const priorityMap = {
+  none: {
+    text: 'No priority',
+    icon: (
+      <PriorityComponent priority="none">
+        <Icons.priority0 className="h-4 w-4" />
+      </PriorityComponent>
+    ),
+  },
   low: {
     text: 'Low',
-    icon: <ArrowDown className="h-3 w-3" />,
+    icon: (
+      <PriorityComponent priority="low">
+        <Icons.priority1 className="h-4 w-4" />
+      </PriorityComponent>
+    ),
   },
   medium: {
     text: 'Medium',
-    icon: <ArrowRight className="h-3 w-3" />,
+    icon: (
+      <PriorityComponent priority="medium">
+        <Icons.priority2 className="h-4 w-4" />
+      </PriorityComponent>
+    ),
   },
   high: {
     text: 'High',
-    icon: <ArrowUp className="h-3 w-3" />,
+    icon: (
+      <PriorityComponent priority="high">
+        <Icons.priority3 className="h-4 w-4" />
+      </PriorityComponent>
+    ),
+  },
+  urgent: {
+    text: 'Urgent',
+    icon: (
+      <PriorityComponent priority="urgent">
+        <Icons.priorityUrgent className="h-4 w-4" />
+      </PriorityComponent>
+    ),
   },
 }
 
@@ -67,10 +126,7 @@ export function TaskItem({ task, description, priority }: Props) {
       </div>
 
       <div className="flex items-center gap-2">
-        <Badge variant="outline" className="flex items-center gap-1">
-          <span>{priorityMap[priority || 'low'].text}</span>
-          {priorityMap[priority || 'low'].icon}
-        </Badge>
+        {priorityMap[priority || 'none'].icon}
         <Badge variant="secondary">{new Date().toLocaleDateString()}</Badge>
         <Badge className="bg-purple-400">Work</Badge>
 
