@@ -13,6 +13,12 @@ import { Session } from 'next-auth'
 
 import { Icons } from '@/components/icon'
 import { Button } from '@/components/ui/button'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 import { SettingsMenu } from './settings-menu'
 import { SidebarNavItem } from './sidebar-nav-item'
@@ -33,9 +39,20 @@ export function Sidebar({ user }: Props) {
           <div className="flex w-full items-center">
             <div className="ml-4 grid gap-0">
               <span className="text-sm font-semibold text-primary">
-                Vinnicius Gomes
+                {user.name}
               </span>
-              <p className="text-sm text-muted-foreground">{user.email}</p>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <p className="truncate text-sm text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{user.email}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
         </div>

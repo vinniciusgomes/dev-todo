@@ -89,24 +89,25 @@ export function AuthForm() {
       </div>
       <div className="grid gap-4">
         <div className="flex grid-cols-2 flex-col gap-4 sm:grid">
-          <Button variant="outline" type="button" disabled={isLoading}>
-            <Icons.google className="mr-2 h-4 w-4" />
-            Login with Google
-          </Button>
-          <Button variant="outline" type="button" disabled={isLoading}>
+          <Button
+            variant="outline"
+            type="button"
+            disabled={isLoading}
+            onClick={() => signIn('github')}
+          >
             <Icons.gitHub className="mr-2 h-4 w-4" />
             Login with GitHub
           </Button>
+          <Button
+            variant="outline"
+            type="button"
+            disabled={isLoading}
+            onClick={() => signIn('google')}
+          >
+            <Icons.google className="mr-2 h-4 w-4" />
+            Login with Google
+          </Button>
         </div>
-        <Button
-          variant="outline"
-          type="button"
-          className="w-full"
-          disabled={isLoading}
-        >
-          <Icons.apple className="mr-2 h-4 w-4" />
-          Login with Apple
-        </Button>
       </div>
     </div>
   )
