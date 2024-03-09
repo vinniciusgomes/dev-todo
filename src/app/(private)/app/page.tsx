@@ -2,9 +2,9 @@
 
 import { Calendar } from 'lucide-react'
 
-import { NewTask } from './_components/new-task'
 import { PhraseOfTheDay } from './_components/phrase-of-the-day'
-import { TaskList } from './_components/task-list'
+import { NewTask } from './_components/task/new-task'
+import { TaskList } from './_components/task/task-list'
 import { WelcomeText } from './_components/welcome-text'
 
 export default function Page() {

@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 import { ReactNode } from 'react'
 
-import { Sidebar } from '@/components/dashboard/sidebar'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { auth } from '@/services/auth'
+
+import { Sidebar } from './_components/sidebar'
 
 export const metadata: Metadata = {
-  title: 'App',
+  title: 'Settings',
 }
 
 export default async function RootLayout({
@@ -14,14 +14,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: ReactNode
 }>) {
-  const session = await auth()
-
   return (
     <main className="flex h-screen w-full">
-      <Sidebar user={session?.user} />
+      <Sidebar />
 
-      <ScrollArea className="no-scrollbar h-screen flex-1">
-        <div className="px-4 py-6 lg:px-8 lg:py-8">{children}</div>
+      <ScrollArea className="no-scrollbar mx-auto h-screen max-w-[800px] flex-1">
+        <div className="px-4 py-6 lg:px-8 lg:py-16">{children}</div>
       </ScrollArea>
     </main>
   )

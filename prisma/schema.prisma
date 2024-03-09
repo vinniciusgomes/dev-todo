@@ -59,18 +59,19 @@ model VerificationToken {
 }
 
 model Todo {
-  id        String    @id @default(cuid())
-  title     String
-  user      User      @relation(fields: [userId], references: [id])
-  userId    String
-  completed Boolean   @default(false)
-  dueDate   DateTime?
-  tags      TodoTag[]
-  tagId     String
-  priority  String
-  deleted   Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  completed   Boolean   @default(false)
+  dueDate     DateTime?
+  tags        TodoTag?  @relation(fields: [todoTagId], references: [id])
+  priority    String
+  deleted     Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  todoTagId   String?
 }
 
 model TodoTag {
