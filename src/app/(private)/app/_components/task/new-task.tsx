@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios'
 import { format } from 'date-fns'
 import { CalendarIcon, Plus } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -24,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useToast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
 
 const taskForm = z.object({
@@ -38,6 +40,7 @@ const taskForm = z.object({
 type TaskForm = z.infer<typeof taskForm>
 
 export function NewTask() {
+  const { toast } = useToast()
   const form = useForm<TaskForm>({
     defaultValues: {
       priority: 'none',
@@ -47,13 +50,13 @@ export function NewTask() {
   const onSubmit = async (data: TaskForm) => {
     try {
       const body = data
-      await fetch('/api/task', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
+      await axios.post('/api/task', body)
 
-      console.log('aqui')
+      form.reset()
+
+      toast({
+        title: 'Task created',
+      })
     } catch (error) {
       console.error(error)
     }
