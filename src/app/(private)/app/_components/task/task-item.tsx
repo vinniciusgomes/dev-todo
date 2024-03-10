@@ -1,5 +1,6 @@
 'use client'
 
+import { format } from 'date-fns'
 import { Eye } from 'lucide-react'
 import { useState } from 'react'
 
@@ -14,17 +15,17 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
-
-type Priority = 'none' | 'low' | 'medium' | 'high' | 'urgent'
+import { TaskPriority } from '@/services/types'
 
 type Props = {
-  task: string
+  title: string
   description?: string
-  priority?: Priority
+  priority?: TaskPriority
+  dueDate?: Date
 }
 
 type PriorityComponentProps = {
-  priority: Priority
+  priority: TaskPriority
   children: React.ReactNode
 }
 
@@ -88,7 +89,7 @@ const priorityMap = {
   },
 }
 
-export function TaskItem({ task, description, priority }: Props) {
+export function TaskItem({ title, description, priority, dueDate }: Props) {
   const [isCompleted, setIsCompleted] = useState<boolean | 'indeterminate'>(
     false,
   )
@@ -110,7 +111,7 @@ export function TaskItem({ task, description, priority }: Props) {
               isCompleted && 'text-muted-foreground line-through opacity-50',
             )}
           >
-            {task}
+            {title}
           </label>
           {description && (
             <p
@@ -127,7 +128,10 @@ export function TaskItem({ task, description, priority }: Props) {
 
       <div className="flex items-center gap-2">
         {priorityMap[priority || 'none'].icon}
-        <Badge variant="secondary">{new Date().toLocaleDateString()}</Badge>
+
+        {dueDate && (
+          <Badge variant="secondary">{format(dueDate, 'dd MMM yyyy')}</Badge>
+        )}
         <Badge className="bg-purple-400">Work</Badge>
 
         <Button size="text" variant="text">

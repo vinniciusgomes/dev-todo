@@ -9,6 +9,7 @@ import {
   Sunrise,
   Trash2,
 } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
 import { Session } from 'next-auth'
 
 import { Icons } from '@/components/icon'
@@ -30,6 +31,9 @@ type Props = {
 
 export function Sidebar({ user }: Props) {
   if (!user) return
+
+  const { push } = useRouter()
+  const pathname = usePathname()
 
   return (
     <aside className="hidden w-full max-w-[280px] flex-col justify-between border-r px-6 py-6 lg:flex">
@@ -62,39 +66,44 @@ export function Sidebar({ user }: Props) {
             <ul className="mt-2 space-y-1">
               <SidebarNavItem
                 label="All"
-                onClick={() => {}}
-                active
+                onClick={() => push('/app')}
+                active={pathname === '/app'}
                 count={11}
                 icon={GalleryVerticalEnd}
               />
               <SidebarNavItem
                 label="Today"
-                onClick={() => {}}
+                onClick={() => push('/app/today')}
                 count={13}
+                active={pathname === '/app/today'}
                 icon={Calendar}
               />
               <SidebarNavItem
                 label="Tomorrow"
-                onClick={() => {}}
+                onClick={() => push('/app/tomorrow')}
                 count={11}
+                active={pathname === '/app/tomorrow'}
                 icon={Sunrise}
               />
               <SidebarNavItem
                 label="Next 7 days"
-                onClick={() => {}}
+                onClick={() => push('/app/next-7-days')}
                 count={11}
+                active={pathname === '/app/next-7-days'}
                 icon={CalendarDays}
               />
               <SidebarNavItem
                 label="Completed"
-                onClick={() => {}}
+                onClick={() => push('/app/completed')}
                 count={24}
+                active={pathname === '/app/completed'}
                 icon={CheckSquare}
               />
               <SidebarNavItem
                 label="Trash"
-                onClick={() => {}}
+                onClick={() => push('/app/trash')}
                 count={104}
+                active={pathname === '/app/trash'}
                 icon={Trash2}
               />
             </ul>

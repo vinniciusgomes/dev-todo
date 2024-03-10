@@ -1,9 +1,8 @@
 'use client'
 
-import axios from 'axios'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Plus } from 'lucide-react'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -28,54 +27,85 @@ import {
 } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
+import { createTask } from '@/services/api/routes'
+import { GetTasksResponse } from '@/services/api/types'
 
 const taskFormSchema = z.object({
   title: z.string().min(1, { message: 'Please enter a task name.' }),
-  date: z.date(),
+  dueDate: z.date().optional(),
   priority: z.enum(['none', 'low', 'medium', 'high', 'urgent'], {
     invalid_type_error: 'Please select a priority.',
   }),
-  description: z.string().optional(),
 })
 
 type TaskForm = z.infer<typeof taskFormSchema>
 
 export function NewTask() {
-  const [loading, setLoading] = useState(false)
   const { toast } = useToast()
+  const queryClient = useQueryClient()
   const form = useForm<TaskForm>({
     defaultValues: {
       priority: 'none',
     },
   })
 
-  const onSubmit = async (data: TaskForm) => {
-    setLoading(true)
+  function updateTaskListCache({ dueDate, priority, title }: TaskForm) {
+    const cached = queryClient.getQueryData<GetTasksResponse>(['tasks'])
 
+    if (cached) {
+      queryClient.setQueryData<GetTasksResponse>(
+        ['tasks'],
+        [
+          ...cached,
+          {
+            title,
+            priority,
+            dueDate,
+          },
+        ],
+      )
+    }
+
+    return { cached }
+  }
+
+  const { mutateAsync: saveTask, isPending } = useMutation({
+    mutationFn: createTask,
+
+    onMutate({ priority, title, dueDate }) {
+      const { cached } = updateTaskListCache({
+        priority,
+        title,
+        dueDate,
+      })
+
+      toast({
+        title: 'Task created',
+        description: 'Your task has been created.',
+      })
+
+      form.reset()
+      form.clearErrors()
+
+      return { previousTasks: cached }
+    },
+    onError() {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong.',
+      })
+    },
+  })
+
+  const onSubmit = async (data: TaskForm) => {
     if (!data.title) {
-      setLoading(false)
       return toast({
         title: 'Invalid title',
         description: 'Please enter a task name.',
       })
     }
 
-    try {
-      await axios.post('/api/task', data)
-      form.reset()
-
-      toast({
-        title: 'Task created',
-        description: 'Your task has been created.',
-      })
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-      })
-    } finally {
-      setLoading(false)
-    }
+    await saveTask(data)
   }
 
   return (
@@ -89,7 +119,7 @@ export function NewTask() {
           />
           <FormField
             control={form.control}
-            name="date"
+            name="dueDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <Popover>
@@ -207,9 +237,9 @@ export function NewTask() {
           <Button
             className="w-full lg:w-[130px]"
             type="submit"
-            disabled={loading}
+            disabled={isPending}
           >
-            {loading ? (
+            {isPending ? (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             ) : (
               <Plus className="mr-2 h-4 w-4" />

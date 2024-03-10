@@ -9,6 +9,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
+import { Task, TaskPriority } from '@/services/types'
 
 import { TaskItem } from './task-item'
 
@@ -17,6 +18,7 @@ type Props = {
   listDescription?: string
   listIcon?: React.ElementType
   defaultOpen?: boolean
+  tasks?: Task[]
 }
 
 export function TaskList({
@@ -24,9 +26,25 @@ export function TaskList({
   listDescription,
   listIcon,
   defaultOpen,
+  tasks,
 }: Props) {
   const [isOpen, setIsOpen] = useState(defaultOpen || false)
   const Icon = listIcon
+
+  if (!tasks) {
+    return null
+  }
+
+  const sortedTasks = [...tasks].sort((a, b) => {
+    const priorityOrder: Record<TaskPriority, number> = {
+      none: 0,
+      low: 1,
+      medium: 2,
+      high: 3,
+      urgent: 4,
+    }
+    return priorityOrder[b.priority] - priorityOrder[a.priority]
+  })
 
   return (
     <Collapsible
@@ -52,61 +70,15 @@ export function TaskList({
         </CollapsibleTrigger>
       </div>
       <CollapsibleContent className="space-y-2">
-        <TaskItem
-          task='Read "The Pragmatic Programmer"'
-          description="Gain insights into software development best practices"
-          priority="urgent"
-        />
-        <TaskItem
-          task='Study "Effective Communication"'
-          description="Improve communication skills for better collaboration"
-          priority="none"
-        />
-        <TaskItem
-          task='Complete "Machine Learning Project"'
-          description="Implement algorithms for data analysis"
-          priority="high"
-        />
-        <TaskItem
-          task='Practice "Data Structures"'
-          description="Solidify understanding of fundamental concepts"
-          priority="medium"
-        />
-        <TaskItem
-          task='Review "Object-Oriented Design Principles"'
-          description="Apply principles to software architecture"
-          priority="low"
-        />
-        <TaskItem
-          task='Research "Blockchain Technology"'
-          description="Explore potential applications and implications"
-          priority="medium"
-        />
-        <TaskItem
-          task='Write "Technical Blog Post"'
-          description="Share insights and experiences with the community"
-          priority="high"
-        />
-        <TaskItem
-          task='Attend "Tech Conference"'
-          description="Stay updated with the latest industry trends"
-          priority="low"
-        />
-        <TaskItem
-          task='Prepare "Presentation"'
-          description="Communicate findings and recommendations effectively"
-          priority="medium"
-        />
-        <TaskItem
-          task='Read "Clean Code"'
-          description="Refactor code for improved readability and maintainability"
-          priority="high"
-        />
-        <TaskItem
-          task='Practice "Problem Solving"'
-          description="Enhance problem-solving skills through regular exercises"
-          priority="low"
-        />
+        {sortedTasks?.map((task) => (
+          <TaskItem
+            key={task.id}
+            title={task.title}
+            description={task.description}
+            priority={task.priority}
+            dueDate={task.dueDate}
+          />
+        ))}
       </CollapsibleContent>
     </Collapsible>
   )

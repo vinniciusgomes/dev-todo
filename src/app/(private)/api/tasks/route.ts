@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server'
 
 import { auth } from '@/services/auth'
@@ -12,16 +11,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const result = await prisma.todo.create({
+  await prisma.todo.create({
     data: {
       title: res.title,
-      priority: res.title,
-      dueDate: res.date ?? null,
+      priority: res.priority,
+      dueDate: res.dueDate ?? null,
       user: { connect: { email: session?.user?.email } },
     },
   })
 
-  return NextResponse.json({ result }, { status: 201 })
+  return NextResponse.json({ status: 201 })
 }
 
 export async function GET() {
@@ -34,7 +33,9 @@ export async function GET() {
     where: { user: { email: session?.user?.email } },
   })
 
-  console.log(result)
+  return NextResponse.json(
+    result,
 
-  return NextResponse.json({ status: 200 })
+    { status: 200 },
+  )
 }
