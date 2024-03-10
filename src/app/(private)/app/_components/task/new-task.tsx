@@ -3,6 +3,7 @@
 import axios from 'axios'
 import { format } from 'date-fns'
 import { CalendarIcon, Plus } from 'lucide-react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -28,7 +29,7 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
 
-const taskForm = z.object({
+const taskFormSchema = z.object({
   title: z.string().min(1, { message: 'Please enter a task name.' }),
   date: z.date(),
   priority: z.enum(['none', 'low', 'medium', 'high', 'urgent'], {
@@ -37,9 +38,10 @@ const taskForm = z.object({
   description: z.string().optional(),
 })
 
-type TaskForm = z.infer<typeof taskForm>
+type TaskForm = z.infer<typeof taskFormSchema>
 
 export function NewTask() {
+  const [loading, setLoading] = useState(false)
   const { toast } = useToast()
   const form = useForm<TaskForm>({
     defaultValues: {
@@ -48,17 +50,31 @@ export function NewTask() {
   })
 
   const onSubmit = async (data: TaskForm) => {
-    try {
-      const body = data
-      await axios.post('/api/task', body)
+    setLoading(true)
 
+    if (!data.title) {
+      setLoading(false)
+      return toast({
+        title: 'Invalid title',
+        description: 'Please enter a task name.',
+      })
+    }
+
+    try {
+      await axios.post('/api/task', data)
       form.reset()
 
       toast({
         title: 'Task created',
+        description: 'Your task has been created.',
       })
     } catch (error) {
-      console.error(error)
+      toast({
+        title: 'Error',
+        description: 'Something went wrong.',
+      })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -188,9 +204,17 @@ export function NewTask() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Button className="w-full lg:w-[130px]" type="submit">
+          <Button
+            className="w-full lg:w-[130px]"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Plus className="mr-2 h-4 w-4" />
+            )}
             Create task
-            <Plus className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </form>
