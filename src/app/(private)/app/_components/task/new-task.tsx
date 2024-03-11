@@ -32,7 +32,7 @@ import { GetTasksResponse } from '@/services/api/types'
 
 const taskFormSchema = z.object({
   title: z.string().min(1, { message: 'Please enter a task name.' }),
-  dueDate: z.date().optional(),
+  dueDate: z.string().optional(),
   priority: z.enum(['none', 'low', 'medium', 'high', 'urgent'], {
     invalid_type_error: 'Please select a priority.',
   }),
@@ -105,7 +105,18 @@ export function NewTask() {
       })
     }
 
-    await saveTask(data)
+    if (!data.dueDate) {
+      return toast({
+        title: 'Invalid due date',
+        description: 'Please enter a due date.',
+      })
+    }
+
+    await saveTask({
+      priority: data.priority,
+      title: data.title,
+      dueDate: data.dueDate && format(data.dueDate, 'yyyy-MM-dd'),
+    })
   }
 
   return (
@@ -144,9 +155,13 @@ export function NewTask() {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={field.value}
+                      selected={field.value ? new Date(field.value) : undefined}
                       onSelect={field.onChange}
-                      disabled={(date) => date < new Date('1900-01-01')}
+                      disabled={(date) => {
+                        const yesterday = new Date()
+                        yesterday.setDate(yesterday.getDate() - 1)
+                        return date < yesterday
+                      }}
                       initialFocus
                     />
                   </PopoverContent>

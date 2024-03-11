@@ -1,7 +1,7 @@
 /*
   Warnings:
 
-  - You are about to alter the column `dueDate` on the `Todo` table. The data in that column could be lost. The data in that column will be cast from `String` to `DateTime`.
+  - Made the column `dueDate` on table `Todo` required. This step will fail if there are existing NULL values in that column.
 
 */
 -- RedefineTables
@@ -12,7 +12,7 @@ CREATE TABLE "new_Todo" (
     "description" TEXT,
     "userId" TEXT NOT NULL,
     "completed" BOOLEAN NOT NULL DEFAULT false,
-    "dueDate" DATETIME,
+    "dueDate" TEXT NOT NULL,
     "priority" TEXT NOT NULL,
     "deleted" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

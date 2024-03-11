@@ -6,7 +6,7 @@ export type Task = {
   description?: string
   userId?: string
   completed?: boolean
-  dueDate?: Date
+  dueDate?: string
   priority: TaskPriority
   deleted?: boolean
   createdAt?: string

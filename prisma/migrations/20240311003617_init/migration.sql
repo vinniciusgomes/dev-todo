@@ -44,15 +44,17 @@ CREATE TABLE "VerificationToken" (
 CREATE TABLE "Todo" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
+    "description" TEXT,
     "userId" TEXT NOT NULL,
     "completed" BOOLEAN NOT NULL DEFAULT false,
-    "dueDate" DATETIME,
-    "tagId" TEXT NOT NULL,
+    "dueDate" TEXT NOT NULL,
     "priority" TEXT NOT NULL,
     "deleted" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
-    CONSTRAINT "Todo_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "todoTagId" TEXT,
+    CONSTRAINT "Todo_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Todo_todoTagId_fkey" FOREIGN KEY ("todoTagId") REFERENCES "TodoTag" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -62,14 +64,6 @@ CREATE TABLE "TodoTag" (
     "color" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "_TodoToTodoTag" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL,
-    CONSTRAINT "_TodoToTodoTag_A_fkey" FOREIGN KEY ("A") REFERENCES "Todo" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "_TodoToTodoTag_B_fkey" FOREIGN KEY ("B") REFERENCES "TodoTag" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -86,9 +80,3 @@ CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token"
 
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_TodoToTodoTag_AB_unique" ON "_TodoToTodoTag"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_TodoToTodoTag_B_index" ON "_TodoToTodoTag"("B");

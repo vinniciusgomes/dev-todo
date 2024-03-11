@@ -1,6 +1,7 @@
 'use client'
 
 import { format } from 'date-fns'
+import { utcToZonedTime } from 'date-fns-tz'
 import { Eye } from 'lucide-react'
 import { useState } from 'react'
 
@@ -128,7 +129,7 @@ export function TaskItem({ task }: Props) {
 
         {task.dueDate && (
           <Badge variant="secondary">
-            {format(task.dueDate, 'dd MMM yyyy')}
+            {format(utcToZonedTime(task.dueDate, 'UTC'), 'dd MMM yyyy')}
           </Badge>
         )}
         <Badge className="bg-purple-400">Work</Badge>

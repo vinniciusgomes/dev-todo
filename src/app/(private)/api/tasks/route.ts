@@ -37,7 +37,6 @@ export async function GET(request: NextRequest) {
 
   const completed = request.nextUrl.searchParams.get('completed') as string
   const deleted = request.nextUrl.searchParams.get('deleted') as string
-  const dueDate = request.nextUrl.searchParams.get('dueDate') as string
 
   if (completed) {
     where.completed = { equals: true }
@@ -47,17 +46,32 @@ export async function GET(request: NextRequest) {
     where.deleted = { equals: true }
   }
 
-  if (dueDate) {
-    where.dueDate = { equals: new Date(dueDate) }
-  }
-
-  const result = await prisma.todo.findMany({
+  let result = await prisma.todo.findMany({
     where,
   })
 
-  return NextResponse.json(
-    result,
+  result = result.sort((a, b) => {
+    if (a.priority === 'urgent' && b.priority !== 'urgent') {
+      return -1
+    }
+    if (b.priority === 'urgent' && a.priority !== 'urgent') {
+      return 1
+    }
 
-    { status: 200 },
-  )
+    if (a.priority === b.priority) {
+      if (!a.dueDate && !b.dueDate) {
+        return 0
+      } else if (!a.dueDate) {
+        return 1
+      } else if (!b.dueDate) {
+        return -1
+      } else {
+        return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+      }
+    }
+
+    return a.priority.localeCompare(b.priority)
+  })
+
+  return NextResponse.json(result, { status: 200 })
 }
