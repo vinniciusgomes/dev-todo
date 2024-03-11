@@ -19,7 +19,7 @@ export const Hero = () => {
         className="absolute -top-20 -z-[10] h-[calc(100vh+162px)] w-screen object-cover md:h-[calc(100vh+120px)]"
       />
 
-      <div className="relative mx-auto max-w-3xl px-4 pb-32 pt-20 sm:px-6 lg:px-8 lg:pb-40 lg:pt-28">
+      <div className="relative mx-auto max-w-3xl px-4 pb-20 pt-20 sm:px-6 lg:px-8 lg:pb-40 lg:pt-28">
         <div>
           <div className="-mt-8 mb-8 flex justify-center sm:mt-0">
             <a

@@ -11,11 +11,6 @@ export default function Pricing() {
       <div>
         <div className="flex min-h-[calc(100vh-5rem)] flex-col">
           <div className="relative flex flex-1 flex-col items-center justify-center">
-            <img
-              src="/home/hero.png"
-              alt="hero"
-              className="absolute -top-20 -z-[10] h-[calc(100vh+162px)] w-screen object-cover md:h-[calc(100vh+120px)]"
-            />
             <div className="relative px-6 py-24 sm:py-32 lg:px-8">
               <h1 className="mx-auto mt-2 max-w-2xl text-center text-4xl font-bold tracking-tight text-white sm:text-5xl lg:max-w-4xl">
                 Pricing
