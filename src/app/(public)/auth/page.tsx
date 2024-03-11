@@ -23,7 +23,7 @@ export default function Page() {
       <div className="flex flex-col items-center space-y-2 sm:items-start">
         <Icons.appIcon className="mb-2 h-12 w-12 fill-primary" />
         <h1 className="text-2xl font-semibold tracking-tight">
-          Log in to DevTodo
+          Log in to DevToDo
         </h1>
         <p className="text-sm text-muted-foreground">
           Enter your email below to access your account
@@ -35,7 +35,7 @@ export default function Page() {
       </div>
 
       <p className="mt-6 px-8 text-center text-sm text-muted-foreground">
-        By continuing, you agree to DevTodo's{' '}
+        By continuing, you agree to DevToDo's{' '}
         <Link
           href="/terms"
           className="underline underline-offset-4 hover:text-primary"

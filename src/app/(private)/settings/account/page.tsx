@@ -24,7 +24,7 @@ export default function Account() {
       <div>
         <h1 className="text-xl">Account</h1>
         <span className="text-sm text-muted-foreground">
-          Manage your DevTodo account
+          Manage your DevToDo account
         </span>
       </div>
       <Separator />
@@ -61,7 +61,7 @@ export default function Account() {
             <p className="text-sm font-medium">Username </p>
             <span className="text-sm text-muted-foreground">—</span>
             <span className="text-sm text-muted-foreground">
-              Nickname or first name, however you want to be called in DevTodo
+              Nickname or first name, however you want to be called in DevToDo
             </span>
           </div>
           <div className="relative flex items-center">

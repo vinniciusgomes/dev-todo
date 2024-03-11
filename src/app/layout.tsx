@@ -11,12 +11,12 @@ import { Provider } from './provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  authors: [{ name: 'DevTodo', url: 'https://devtodo.app' }],
+  authors: [{ name: 'DevToDo', url: 'https://devtodo.app' }],
   category: 'developer',
-  creator: 'DevTodo',
+  creator: 'DevToDo',
   title: {
-    default: 'DevTodo — Todo app for developers',
-    template: '%s — DevTodo',
+    default: 'DevToDo — Todo app for developers',
+    template: '%s — DevToDo',
   },
   description:
     'DevToDo is a to-do list application developed specifically to meet the needs of developers. It offers a simple and effective way to manage tasks, projects, and software development goals.',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     shortcut: '/assets/images/favicon/favicon-32x32.png',
   },
   keywords: [
-    'DevTodo',
+    'DevToDo',
     'devtodo.app',
     'todo-list',
     'todo',
@@ -39,33 +39,33 @@ export const metadata: Metadata = {
         width: 1920,
         height: 1080,
         url: '/assets/images/share.png',
-        alt: 'DevTodo cover',
+        alt: 'DevToDo cover',
       },
     ],
     locale: 'en',
-    title: 'DevTodo',
-    siteName: 'DevTodo',
+    title: 'DevToDo',
+    siteName: 'DevToDo',
     description:
       'DevToDo is a to-do list application developed specifically to meet the needs of developers. It offers a simple and effective way to manage tasks, projects, and software development goals.',
     type: 'website',
     url: 'https://devtodo.app',
   },
-  publisher: 'DevTodo',
+  publisher: 'DevToDo',
   twitter: {
     images: [
       {
         width: 1920,
         height: 1080,
         url: '/assets/images/share.png',
-        alt: 'DevTodo cover',
+        alt: 'DevToDo cover',
       },
     ],
     card: 'summary_large_image',
-    title: 'DevTodo',
+    title: 'DevToDo',
     description:
       'DevToDo is a to-do list application developed specifically to meet the needs of developers. It offers a simple and effective way to manage tasks, projects, and software development goals.',
     site: '@devtodo',
-    creator: 'DevTodo',
+    creator: 'DevToDo',
   },
 }
 

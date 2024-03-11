@@ -47,6 +47,10 @@
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
   }
+
+  .text-gradient {
+    @apply bg-gradient-to-b from-primary to-[#adadad] bg-clip-text text-transparent;
+  }
 }
 
 @layer utilities {

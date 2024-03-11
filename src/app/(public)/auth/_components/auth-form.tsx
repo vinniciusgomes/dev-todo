@@ -73,7 +73,7 @@ export function AuthForm() {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In with Email
+            Continue with Email
           </Button>
         </div>
       </form>
@@ -96,7 +96,7 @@ export function AuthForm() {
             onClick={() => signIn('github')}
           >
             <Icons.gitHub className="mr-2 h-4 w-4" />
-            Login with GitHub
+            Continue with GitHub
           </Button>
           <Button
             variant="outline"
@@ -105,7 +105,7 @@ export function AuthForm() {
             onClick={() => signIn('google')}
           >
             <Icons.google className="mr-2 h-4 w-4" />
-            Login with Google
+            Continue with Google
           </Button>
         </div>
       </div>
