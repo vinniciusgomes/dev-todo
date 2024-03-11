@@ -1,9 +1,15 @@
 import { http } from '@/lib/http'
 
-import { CreateTaskBody, GetTasksResponse } from './types'
+import { CreateTaskBody, GetTasksQuery, GetTasksResponse } from './types'
 
-export async function getTasks() {
-  const response = await http.get<GetTasksResponse>('/tasks')
+export async function getTasks({ completed, deleted, dueDate }: GetTasksQuery) {
+  const response = await http.get<GetTasksResponse>('/tasks', {
+    params: {
+      completed,
+      deleted,
+      dueDate,
+    },
+  })
 
   return response.data
 }

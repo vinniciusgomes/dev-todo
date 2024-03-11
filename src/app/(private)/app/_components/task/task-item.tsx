@@ -15,13 +15,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
-import { TaskPriority } from '@/services/types'
+import { Task, TaskPriority } from '@/services/types'
 
 type Props = {
-  title: string
-  description?: string
-  priority?: TaskPriority
-  dueDate?: Date
+  task: Task
 }
 
 type PriorityComponentProps = {
@@ -89,9 +86,9 @@ const priorityMap = {
   },
 }
 
-export function TaskItem({ title, description, priority, dueDate }: Props) {
+export function TaskItem({ task }: Props) {
   const [isCompleted, setIsCompleted] = useState<boolean | 'indeterminate'>(
-    false,
+    !!task.completed,
   )
 
   return (
@@ -111,26 +108,28 @@ export function TaskItem({ title, description, priority, dueDate }: Props) {
               isCompleted && 'text-muted-foreground line-through opacity-50',
             )}
           >
-            {title}
+            {task.title}
           </label>
-          {description && (
+          {task.description && (
             <p
               className={cn(
-                'text-sm text-muted-foreground',
+                'truncate text-sm text-muted-foreground',
                 isCompleted && 'text-muted-foreground line-through opacity-50',
               )}
             >
-              {description}
+              {task.description}
             </p>
           )}
         </div>
       </div>
 
       <div className="flex items-center gap-2">
-        {priorityMap[priority || 'none'].icon}
+        {priorityMap[task.priority || 'none'].icon}
 
-        {dueDate && (
-          <Badge variant="secondary">{format(dueDate, 'dd MMM yyyy')}</Badge>
+        {task.dueDate && (
+          <Badge variant="secondary">
+            {format(task.dueDate, 'dd MMM yyyy')}
+          </Badge>
         )}
         <Badge className="bg-purple-400">Work</Badge>
 

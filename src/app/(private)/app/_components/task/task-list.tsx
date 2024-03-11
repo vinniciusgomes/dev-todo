@@ -70,15 +70,7 @@ export function TaskList({
         </CollapsibleTrigger>
       </div>
       <CollapsibleContent className="space-y-2">
-        {sortedTasks?.map((task) => (
-          <TaskItem
-            key={task.id}
-            title={task.title}
-            description={task.description}
-            priority={task.priority}
-            dueDate={task.dueDate}
-          />
-        ))}
+        {sortedTasks?.map((task) => <TaskItem key={task.id} task={task} />)}
       </CollapsibleContent>
     </Collapsible>
   )

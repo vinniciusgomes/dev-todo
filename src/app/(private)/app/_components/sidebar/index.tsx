@@ -1,5 +1,7 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
+import { isToday, isTomorrow } from 'date-fns'
 import {
   Calendar,
   CalendarDays,
@@ -20,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { getTasks } from '@/services/api/routes'
 
 import { SettingsMenu } from './settings-menu'
 import { SidebarNavItem } from './sidebar-nav-item'
@@ -30,10 +33,53 @@ type Props = {
 }
 
 export function Sidebar({ user }: Props) {
-  if (!user) return
-
   const { push } = useRouter()
   const pathname = usePathname()
+
+  const { data: tasks } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: () => getTasks({}),
+  })
+
+  const today = new Date()
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+
+  const todayTasksCount =
+    tasks?.filter(
+      (task) =>
+        task?.dueDate &&
+        isToday(new Date(task.dueDate)) &&
+        !task.completed &&
+        !task.deleted,
+    ).length || 0
+
+  const tomorrowTasksCount =
+    tasks?.filter(
+      (task) =>
+        task?.dueDate &&
+        isTomorrow(new Date(task.dueDate)) &&
+        !task.completed &&
+        !task.deleted,
+    ).length || 0
+
+  const nextSevenDaysTasksCount =
+    tasks?.filter(
+      (task) =>
+        task.dueDate &&
+        new Date(task?.dueDate) <=
+          new Date(today.setDate(today.getDate() + 7)) &&
+        !task.completed &&
+        !task.deleted,
+    ).length || 0
+
+  const allTasksCount =
+    tasks?.filter((task) => !task.deleted && !task.completed).length || 0
+
+  const completedTasksCount =
+    tasks?.filter((task) => task.completed).length || 0
+
+  const trashTasksCount = tasks?.filter((task) => task.deleted).length || 0
 
   return (
     <aside className="hidden w-full max-w-[280px] flex-col justify-between border-r px-6 py-6 lg:flex">
@@ -43,17 +89,17 @@ export function Sidebar({ user }: Props) {
           <div className="flex w-full items-center">
             <div className="ml-4 grid gap-0">
               <span className="text-sm font-semibold text-primary">
-                {user.name}
+                {user?.name}
               </span>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <p className="truncate text-sm text-muted-foreground">
-                      {user.email}
+                      {user?.email}
                     </p>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>{user.email}</p>
+                    <p>{user?.email}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -68,41 +114,41 @@ export function Sidebar({ user }: Props) {
                 label="All"
                 onClick={() => push('/app')}
                 active={pathname === '/app'}
-                count={11}
+                count={allTasksCount}
                 icon={GalleryVerticalEnd}
               />
               <SidebarNavItem
                 label="Today"
                 onClick={() => push('/app/today')}
-                count={13}
+                count={todayTasksCount}
                 active={pathname === '/app/today'}
                 icon={Calendar}
               />
               <SidebarNavItem
                 label="Tomorrow"
                 onClick={() => push('/app/tomorrow')}
-                count={11}
+                count={tomorrowTasksCount}
                 active={pathname === '/app/tomorrow'}
                 icon={Sunrise}
               />
               <SidebarNavItem
                 label="Next 7 days"
                 onClick={() => push('/app/next-7-days')}
-                count={11}
+                count={nextSevenDaysTasksCount}
                 active={pathname === '/app/next-7-days'}
                 icon={CalendarDays}
               />
               <SidebarNavItem
                 label="Completed"
                 onClick={() => push('/app/completed')}
-                count={24}
+                count={completedTasksCount}
                 active={pathname === '/app/completed'}
                 icon={CheckSquare}
               />
               <SidebarNavItem
                 label="Trash"
                 onClick={() => push('/app/trash')}
-                count={104}
+                count={trashTasksCount}
                 active={pathname === '/app/trash'}
                 icon={Trash2}
               />

@@ -1,25 +1,33 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Calendar, CalendarDays, CalendarOff, Sunrise } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { getTasks } from '@/services/api/routes'
 import { Task } from '@/services/types'
 
-import { PhraseOfTheDay } from './_components/phrase-of-the-day'
-import { NewTask } from './_components/task/new-task'
-import { TaskList } from './_components/task/task-list'
-import { WelcomeText } from './_components/welcome-text'
-import { formatDueDate } from './_utils/formatDueDate'
+import { TaskList } from '../_components/task/task-list'
+import { formatDueDate } from '../_utils/formatDueDate'
+import { renderListIcon } from '../_utils/renderListIcon'
 
-export default function Page() {
+export default function Completed() {
   const [tasksByDueDate, setTasksByDueDate] = useState<Record<string, Task[]>>(
     {},
   )
+
   const { data: tasks } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: () => getTasks({}),
+    queryKey: [
+      'tasks',
+      {
+        filter: {
+          completed: true,
+        },
+      },
+    ],
+    queryFn: () =>
+      getTasks({
+        completed: true,
+      }),
   })
 
   useEffect(() => {
@@ -44,31 +52,16 @@ export default function Page() {
     }
   }, [tasks])
 
-  function renderListIcon(dueDate: string) {
-    if (dueDate === 'No deadline') {
-      return CalendarOff
-    }
-
-    switch (formatDueDate(dueDate)) {
-      case 'Tomorrow':
-        return Sunrise
-      case 'Today':
-        return Calendar
-      default:
-        return CalendarDays
-    }
-  }
-
   return (
-    <div className="flex w-full flex-col gap-10">
-      <WelcomeText />
-      <div className="mb-[-16px]">
-        <PhraseOfTheDay />
+    <main>
+      <div className="flex flex-col">
+        <h1 className="text-2xl font-semibold">Completed</h1>
+        <span className="text-sm text-muted-foreground">
+          All completed tasks.
+        </span>
       </div>
-      <div className="top-0 z-50 bg-background pt-4 lg:sticky">
-        <NewTask />
-      </div>
-      <div className="grid gap-6">
+
+      <div className="mt-10 grid gap-6">
         {Object.entries(tasksByDueDate).map(([dueDate, tasks]) => (
           <div key={dueDate}>
             <TaskList
@@ -81,7 +74,7 @@ export default function Page() {
               listDescription={
                 dueDate === 'No deadline'
                   ? ''
-                  : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
+                  : `All completed tasks ${formatDueDate(dueDate).toLocaleLowerCase()}`
               }
               defaultOpen
               tasks={tasks}
@@ -89,6 +82,6 @@ export default function Page() {
           </div>
         ))}
       </div>
-    </div>
+    </main>
   )
 }
