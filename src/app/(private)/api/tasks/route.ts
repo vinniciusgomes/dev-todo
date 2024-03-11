@@ -37,6 +37,7 @@ export async function GET(request: NextRequest) {
 
   const completed = request.nextUrl.searchParams.get('completed') as string
   const deleted = request.nextUrl.searchParams.get('deleted') as string
+  const dueDate = request.nextUrl.searchParams.get('dueDate') as string
 
   if (completed) {
     where.completed = { equals: true }
@@ -44,6 +45,10 @@ export async function GET(request: NextRequest) {
 
   if (deleted) {
     where.deleted = { equals: true }
+  }
+
+  if (dueDate) {
+    where.dueDate = { equals: dueDate }
   }
 
   let result = await prisma.todo.findMany({

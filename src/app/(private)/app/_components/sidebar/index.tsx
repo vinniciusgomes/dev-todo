@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { isToday, isTomorrow } from 'date-fns'
+import { format, isToday, isTomorrow } from 'date-fns'
 import {
   Calendar,
   CalendarDays,
@@ -48,8 +48,7 @@ export function Sidebar({ user }: Props) {
   const todayTasksCount =
     tasks?.filter(
       (task) =>
-        task?.dueDate &&
-        isToday(new Date(task.dueDate)) &&
+        task?.dueDate === format(new Date(), 'yyyy-MM-dd') &&
         !task.completed &&
         !task.deleted,
     ).length || 0
@@ -57,8 +56,7 @@ export function Sidebar({ user }: Props) {
   const tomorrowTasksCount =
     tasks?.filter(
       (task) =>
-        task?.dueDate &&
-        isTomorrow(new Date(task.dueDate)) &&
+        task?.dueDate === format(tomorrow, 'yyyy-MM-dd') &&
         !task.completed &&
         !task.deleted,
     ).length || 0
@@ -67,8 +65,9 @@ export function Sidebar({ user }: Props) {
     tasks?.filter(
       (task) =>
         task.dueDate &&
-        new Date(task?.dueDate) <=
+        new Date(task.dueDate) <=
           new Date(today.setDate(today.getDate() + 7)) &&
+        new Date(task.dueDate) >= new Date() &&
         !task.completed &&
         !task.deleted,
     ).length || 0

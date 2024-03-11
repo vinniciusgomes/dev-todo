@@ -115,7 +115,7 @@ export function NewTask() {
     await saveTask({
       priority: data.priority,
       title: data.title,
-      dueDate: data.dueDate && format(data.dueDate, 'yyyy-MM-dd'),
+      dueDate: data.dueDate && format(new Date(data.dueDate), 'yyyy-MM-dd'),
     })
   }
 
@@ -145,7 +145,7 @@ export function NewTask() {
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {field.value ? (
-                          format(field.value, 'PPP')
+                          format(new Date(field.value), 'PPP')
                         ) : (
                           <span>Pick a date</span>
                         )}

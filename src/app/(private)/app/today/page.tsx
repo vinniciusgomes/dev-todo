@@ -1,6 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import { format } from 'date-fns'
 
 import { getTasks } from '@/services/api/routes'
 
@@ -8,8 +9,18 @@ import { TaskItem } from '../_components/task/task-item'
 
 export default function Today() {
   const { data: tasks } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: () => getTasks({}),
+    queryKey: [
+      'tasks',
+      {
+        filter: {
+          dueDate: format(new Date(), 'yyyy-MM-dd'),
+        },
+      },
+    ],
+    queryFn: () =>
+      getTasks({
+        dueDate: format(new Date(), 'yyyy-MM-dd'),
+      }),
   })
 
   return (
