@@ -80,3 +80,52 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(result, { status: 200 })
 }
+
+export async function PUT(request: NextRequest) {
+  const req = await request.json()
+  const session = await auth()
+
+  if (!session?.user?.email) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  const todoId = req.id
+
+  const updatedData = {
+    title: req.title,
+    priority: req.priority,
+    dueDate: req.dueDate,
+    completed: req.completed,
+    deleted: req.deleted,
+  }
+
+  const existingTodo = await prisma.todo.findFirst({
+    where: {
+      id: todoId,
+      user: { email: session.user.email },
+    },
+  })
+
+  if (!existingTodo) {
+    return NextResponse.json(
+      { error: 'Todo not found or unauthorized' },
+      { status: 404 },
+    )
+  }
+
+  try {
+    await prisma.todo.update({
+      where: { id: todoId },
+      data: updatedData,
+    })
+
+    return NextResponse.json({ status: 200 })
+  } catch (error) {
+    console.log(error)
+
+    return NextResponse.json(
+      { error: 'Failed to update todo' },
+      { status: 500 },
+    )
+  }
+}

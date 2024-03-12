@@ -15,6 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { http } from '@/lib/http'
 import { cn } from '@/lib/utils'
 import { Task, TaskPriority } from '@/services/types'
 
@@ -92,6 +93,17 @@ export function TaskItem({ task }: Props) {
     !!task.completed,
   )
 
+  const handleCheck = async () => {
+    try {
+      await http.put(`/tasks`, {
+        id: task.id,
+        completed: !task.completed,
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className="grid w-full items-center justify-between gap-4 rounded-md p-4 px-0 lg:flex lg:px-5">
       <div className="items-top flex space-x-3">
@@ -99,7 +111,10 @@ export function TaskItem({ task }: Props) {
           id="terms1"
           checked={isCompleted}
           className="h-4 w-4"
-          onCheckedChange={(checked) => setIsCompleted(checked)}
+          onCheckedChange={(checked) => {
+            setIsCompleted(checked)
+            handleCheck()
+          }}
         />
         <div className="grid gap-1.5 leading-none">
           <label
