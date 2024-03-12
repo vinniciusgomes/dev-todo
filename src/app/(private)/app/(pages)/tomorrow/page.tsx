@@ -5,7 +5,7 @@ import { format } from 'date-fns'
 
 import { getTasks } from '@/services/api/routes'
 
-import { TaskItem } from '../_components/task/task-item'
+import { TaskItem } from '../../_components/task/task-item'
 
 export default function Completed() {
   const tomorrow = new Date()

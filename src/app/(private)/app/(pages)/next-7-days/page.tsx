@@ -6,28 +6,18 @@ import { useEffect, useState } from 'react'
 import { getTasks } from '@/services/api/routes'
 import { Task } from '@/services/types'
 
-import { TaskList } from '../_components/task/task-list'
-import { formatDueDate } from '../_utils/formatDueDate'
-import { renderListIcon } from '../_utils/renderListIcon'
+import { TaskList } from '../../_components/task/task-list'
+import { formatDueDate } from '../../_utils/formatDueDate'
+import { renderListIcon } from '../../_utils/renderListIcon'
 
-export default function Completed() {
+export default function Next7Days() {
   const [tasksByDueDate, setTasksByDueDate] = useState<Record<string, Task[]>>(
     {},
   )
 
   const { data: tasks } = useQuery({
-    queryKey: [
-      'tasks',
-      {
-        filter: {
-          completed: true,
-        },
-      },
-    ],
-    queryFn: () =>
-      getTasks({
-        completed: true,
-      }),
+    queryKey: ['tasks'],
+    queryFn: () => getTasks({}),
   })
 
   useEffect(() => {
@@ -54,14 +44,14 @@ export default function Completed() {
 
   return (
     <main>
-      <div className="flex flex-col">
-        <h1 className="text-2xl font-semibold">Completed</h1>
+      <div className="mb-10 flex flex-col">
+        <h1 className="text-2xl font-semibold">Next 7 days</h1>
         <span className="text-sm text-muted-foreground">
-          All completed tasks.
+          Tasks for the next 7 days.
         </span>
       </div>
 
-      <div className="mt-10 grid gap-6">
+      <div className="grid gap-6">
         {Object.entries(tasksByDueDate).map(([dueDate, tasks]) => (
           <div key={dueDate}>
             <TaskList
@@ -74,7 +64,7 @@ export default function Completed() {
               listDescription={
                 dueDate === 'No deadline'
                   ? ''
-                  : `All completed tasks ${formatDueDate(dueDate).toLocaleLowerCase()}`
+                  : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
               }
               defaultOpen
               tasks={tasks}

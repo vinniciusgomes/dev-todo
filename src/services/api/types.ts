@@ -13,3 +13,12 @@ export interface CreateTaskBody {
   priority: TaskPriority
   dueDate?: string
 }
+
+export interface UpdateTaskBody {
+  id: string
+  title?: string
+  priority?: TaskPriority
+  dueDate?: string
+  completed?: boolean
+  deleted?: boolean
+}

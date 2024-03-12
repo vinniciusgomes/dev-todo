@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { getTasks } from '@/services/api/routes'
 
-import { TaskItem } from '../_components/task/task-item'
+import { TaskItem } from '../../_components/task/task-item'
 
 export default function Trash() {
   const { data: tasks } = useQuery({
