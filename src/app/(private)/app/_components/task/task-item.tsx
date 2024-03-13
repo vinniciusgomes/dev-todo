@@ -104,7 +104,7 @@ export function TaskItem({ task }: Props) {
           {task.description && (
             <p
               className={cn(
-                'truncate text-sm text-muted-foreground',
+                'max-w-[700px] truncate text-sm text-muted-foreground',
                 isCompleted && 'text-muted-foreground line-through opacity-50',
               )}
             >

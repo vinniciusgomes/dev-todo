@@ -64,7 +64,6 @@ export function SettingsMenu() {
                 <DropdownMenuItem onClick={() => setTheme('dark')}>
                   Dark
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>

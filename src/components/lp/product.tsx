@@ -13,10 +13,10 @@ export const Product = () => {
       <div className="relative sm:block">
         <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
           <div className="relative rounded-lg">
-            <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-lg">
+            <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-lg border border-border shadow-lg">
               <img
-                src="https://volta.net/home/screenshot.png"
-                alt="Hero"
+                src="/assets/images/landing-page/product.png"
+                alt="DevToDo home page"
                 className="rounded-xl"
               />
             </div>
@@ -32,7 +32,8 @@ export const Product = () => {
               1
             </div>
             <p className="prose prose-primary dark:prose-invert prose-sm mx-auto mt-2 max-w-[12rem] text-center">
-              Log in with your <strong>GitHub account</strong>
+              Access your account seamlessly with{' '}
+              <strong>Google, GitHub, or email</strong> login options.
             </p>
           </div>
           <div className="group relative">
@@ -41,8 +42,8 @@ export const Product = () => {
               2
             </div>
             <p className="prose prose-primary dark:prose-invert prose-sm mx-auto mt-2 max-w-[12rem] text-center">
-              Install our <strong>GitHub app</strong> and import your
-              repositories
+              Create tags <strong>to easily manage</strong> your day-to-day
+              tasks
             </p>
           </div>
           <div className="group relative">
@@ -51,8 +52,8 @@ export const Product = () => {
               3
             </div>
             <p className="prose prose-primary dark:prose-invert prose-sm mx-auto mt-2 max-w-[12rem] text-center">
-              Browse your <strong>repositories</strong> and start working on{' '}
-              <strong>issues</strong>
+              Create and track all your daily tasks{' '}
+              <strong>simply and easily</strong>.
             </p>
           </div>
           <div className="group relative">
@@ -61,8 +62,8 @@ export const Product = () => {
               4
             </div>
             <p className="prose prose-primary dark:prose-invert prose-sm mx-auto mt-2 max-w-[12rem] text-center">
-              Work in <strong>real-time</strong> with your team on your{' '}
-              <strong>projects</strong>
+              Stay <strong>organized</strong> throughout your day{' '}
+              <strong>without missing</strong> any important tasks.
             </p>
           </div>
         </div>

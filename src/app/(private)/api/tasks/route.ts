@@ -12,8 +12,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  console.log(req)
-
   let tagConnect = {}
   if (req.tagId) {
     tagConnect = { connect: { id: req.tagId } }
