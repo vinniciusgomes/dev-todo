@@ -123,7 +123,15 @@ export function TaskItem({ task }: Props) {
           </Badge>
         )}
         {task.tag?.id && (
-          <Badge className={task.tag.color}>{task.tag?.name}</Badge>
+          <Badge
+            className={cn(
+              'shadow-none',
+              task.tag.color,
+              `hover:${task.tag.color}`,
+            )}
+          >
+            {task.tag?.name}
+          </Badge>
         )}
 
         <Button size="text" variant="text">

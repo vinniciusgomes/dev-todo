@@ -167,8 +167,12 @@ export function Sidebar({ user }: Props) {
                 <SidebarTag
                   key={tag.id}
                   label={tag.name}
-                  onClick={() => {}}
-                  count={11}
+                  onClick={() =>
+                    push(
+                      `/app/${tag.name.replaceAll(' ', '-').toLocaleLowerCase()}`,
+                    )
+                  }
+                  count={tag.tasks?.length || 0}
                   color={tag.color}
                 />
               ))}

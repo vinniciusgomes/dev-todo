@@ -6,6 +6,7 @@ export interface GetTasksQuery {
   completed?: boolean
   deleted?: boolean
   dueDate?: string
+  tagId?: string
 }
 
 export interface CreateTaskBody {

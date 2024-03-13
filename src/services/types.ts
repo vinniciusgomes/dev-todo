@@ -27,6 +27,7 @@ export type Tag = {
   id?: string
   name: string
   color: string
+  tasks?: Task[]
   userId?: string
   createdAt?: string
   updatedAt?: string

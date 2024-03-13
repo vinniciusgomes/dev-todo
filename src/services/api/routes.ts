@@ -9,12 +9,18 @@ import {
   UpdateTaskBody,
 } from './types'
 
-export async function getTasks({ completed, deleted, dueDate }: GetTasksQuery) {
+export async function getTasks({
+  completed,
+  deleted,
+  dueDate,
+  tagId,
+}: GetTasksQuery) {
   const response = await http.get<GetTasksResponse>('/tasks', {
     params: {
       completed,
       deleted,
       dueDate,
+      tagId,
     },
   })
 

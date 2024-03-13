@@ -36,6 +36,9 @@ export async function GET() {
 
   const result = await prisma.tag.findMany({
     where,
+    include: {
+      tasks: true,
+    },
   })
 
   return NextResponse.json(result, { status: 200 })
