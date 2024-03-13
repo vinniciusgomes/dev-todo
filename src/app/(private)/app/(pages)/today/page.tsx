@@ -21,6 +21,7 @@ export default function Today() {
       getTasks({
         dueDate: format(new Date(), 'yyyy-MM-dd'),
       }),
+    staleTime: 10 * (60 * 1000), // 10 mins
   })
 
   return (

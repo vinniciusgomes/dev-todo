@@ -24,6 +24,7 @@ export default function Completed() {
       getTasks({
         dueDate: format(tomorrow, 'yyyy-MM-dd'),
       }),
+    staleTime: 10 * (60 * 1000), // 10 mins
   })
 
   return (

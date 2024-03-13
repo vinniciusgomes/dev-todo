@@ -31,6 +31,7 @@ export default function Tag() {
   const { data: tags } = useQuery({
     queryKey: ['tags'],
     queryFn: getTags,
+    staleTime: Infinity,
   })
 
   useEffect(() => {

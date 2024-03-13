@@ -28,6 +28,7 @@ export default function Completed() {
       getTasks({
         completed: true,
       }),
+    staleTime: 10 * (60 * 1000), // 10 mins
   })
 
   useEffect(() => {

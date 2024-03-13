@@ -39,11 +39,13 @@ export function Sidebar({ user }: Props) {
   const { data: tasks } = useQuery({
     queryKey: ['tasks'],
     queryFn: () => getTasks({}),
+    staleTime: 10 * (60 * 1000), // 10 mins
   })
 
   const { data: tags } = useQuery({
     queryKey: ['tags'],
     queryFn: getTags,
+    staleTime: Infinity,
   })
 
   const today = new Date()

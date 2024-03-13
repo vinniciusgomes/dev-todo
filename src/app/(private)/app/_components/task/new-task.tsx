@@ -53,6 +53,7 @@ export function NewTask() {
   const { data: tags } = useQuery({
     queryKey: ['tags'],
     queryFn: getTags,
+    staleTime: Infinity,
   })
 
   function updateTaskListCache({ dueDate, priority, title, tagId }: TaskForm) {

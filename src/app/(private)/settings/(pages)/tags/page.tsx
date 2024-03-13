@@ -22,6 +22,7 @@ export default function Tags() {
   const { data: tags } = useQuery({
     queryKey: ['tags'],
     queryFn: getTags,
+    staleTime: Infinity,
   })
 
   const filteredTags = tags?.filter((tag) =>

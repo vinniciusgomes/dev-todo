@@ -18,6 +18,7 @@ export default function Next7Days() {
   const { data: tasks } = useQuery({
     queryKey: ['tasks'],
     queryFn: () => getTasks({}),
+    staleTime: 10 * (60 * 1000), // 10 mins
   })
 
   useEffect(() => {
