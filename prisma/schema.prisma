@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -47,8 +41,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  todos         Todo[]
-  todoTags      TodoTag[]
+  tasks         Task[]
+  tags          Tag[]
 }
 
 model VerificationToken {
@@ -59,7 +53,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Todo {
+model Task {
   id          String   @id @default(cuid())
   title       String
   description String?
@@ -67,19 +61,19 @@ model Todo {
   userId      String
   completed   Boolean  @default(false)
   dueDate     String
-  tags        TodoTag? @relation(fields: [todoTagId], references: [id])
+  tags        Tag?     @relation(fields: [tagId], references: [id])
   priority    String
   deleted     Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  todoTagId   String?
+  tagId       String?
 }
 
-model TodoTag {
+model Tag {
   id        String   @id @default(cuid())
   name      String
   color     String
-  todos     Todo[]
+  tasks     Task[]
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now())

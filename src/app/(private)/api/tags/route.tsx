@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  await prisma.todoTag.create({
+  await prisma.tag.create({
     data: {
       color: req.color,
       name: req.name,
@@ -30,11 +30,11 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const where: Prisma.TodoTagWhereInput = {
+  const where: Prisma.TagWhereInput = {
     user: { email: session?.user?.email },
   }
 
-  const result = await prisma.todoTag.findMany({
+  const result = await prisma.tag.findMany({
     where,
   })
 

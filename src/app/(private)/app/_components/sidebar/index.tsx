@@ -22,7 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { getTasks } from '@/services/api/routes'
+import { getTags, getTasks } from '@/services/api/routes'
 
 import { SettingsMenu } from './settings-menu'
 import { SidebarNavItem } from './sidebar-nav-item'
@@ -39,6 +39,11 @@ export function Sidebar({ user }: Props) {
   const { data: tasks } = useQuery({
     queryKey: ['tasks'],
     queryFn: () => getTasks({}),
+  })
+
+  const { data: tags } = useQuery({
+    queryKey: ['tags'],
+    queryFn: getTags,
   })
 
   const today = new Date()
@@ -158,24 +163,16 @@ export function Sidebar({ user }: Props) {
             <h3 className="text-lg font-semibold">Tags</h3>
 
             <ul className="mt-2 space-y-1">
-              <SidebarTag
-                label="Personal"
-                onClick={() => {}}
-                count={11}
-                color="bg-yellow-400"
-              />
-              <SidebarTag
-                label="Work"
-                onClick={() => {}}
-                count={11}
-                color="bg-purple-400"
-              />
-              <SidebarTag
-                label="Family"
-                onClick={() => {}}
-                count={11}
-                color="bg-blue-400"
-              />
+              {tags?.map((tag) => (
+                <SidebarTag
+                  key={tag.id}
+                  label={tag.name}
+                  onClick={() => {}}
+                  count={11}
+                  color={tag.color}
+                />
+              ))}
+
               <li>
                 <Button
                   className="mt-4 flex w-full items-center justify-start gap-2 px-2"

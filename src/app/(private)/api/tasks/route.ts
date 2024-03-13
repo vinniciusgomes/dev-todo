@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  await prisma.todo.create({
+  await prisma.task.create({
     data: {
       title: req.title,
       priority: req.priority,
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const where: Prisma.TodoWhereInput = {
+  const where: Prisma.TaskWhereInput = {
     user: { email: session?.user?.email },
   }
 
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
     where.dueDate = { equals: dueDate }
   }
 
-  let result = await prisma.todo.findMany({
+  let result = await prisma.task.findMany({
     where,
   })
 
@@ -89,7 +89,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const todoId = req.id
+  const taskId = req.id
 
   const updatedData = {
     title: req.title,
@@ -99,23 +99,23 @@ export async function PUT(request: NextRequest) {
     deleted: req.deleted,
   }
 
-  const existingTodo = await prisma.todo.findFirst({
+  const existingTask = await prisma.task.findFirst({
     where: {
-      id: todoId,
+      id: taskId,
       user: { email: session.user.email },
     },
   })
 
-  if (!existingTodo) {
+  if (!existingTask) {
     return NextResponse.json(
-      { error: 'Todo not found or unauthorized' },
+      { error: 'Task not found or unauthorized' },
       { status: 404 },
     )
   }
 
   try {
-    await prisma.todo.update({
-      where: { id: todoId },
+    await prisma.task.update({
+      where: { id: taskId },
       data: updatedData,
     })
 
@@ -124,7 +124,7 @@ export async function PUT(request: NextRequest) {
     console.log(error)
 
     return NextResponse.json(
-      { error: 'Failed to update todo' },
+      { error: 'Failed to update task' },
       { status: 500 },
     )
   }
