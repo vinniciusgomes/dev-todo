@@ -48,6 +48,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   todos         Todo[]
+  todoTags      TodoTag[]
 }
 
 model VerificationToken {
@@ -79,6 +80,8 @@ model TodoTag {
   name      String
   color     String
   todos     Todo[]
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

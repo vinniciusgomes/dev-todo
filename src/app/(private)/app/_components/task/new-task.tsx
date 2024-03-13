@@ -1,6 +1,6 @@
 'use client'
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Plus } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
-import { createTask } from '@/services/api/routes'
+import { createTask, getTags } from '@/services/api/routes'
 import { GetTasksResponse } from '@/services/api/types'
 
 const taskFormSchema = z.object({
@@ -95,6 +95,11 @@ export function NewTask() {
         description: 'Something went wrong.',
       })
     },
+  })
+
+  const { data: tags } = useQuery({
+    queryKey: ['tags'],
+    queryFn: getTags,
   })
 
   const onSubmit = async (data: TaskForm) => {
@@ -228,24 +233,14 @@ export function NewTask() {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Tag</SelectLabel>
-                <SelectItem value="personal">
-                  <div className="flex items-center gap-1.5">
-                    <div className="h-2 w-2 rounded-full bg-yellow-400" />
-                    Personal
-                  </div>
-                </SelectItem>
-                <SelectItem value="work">
-                  <div className="flex items-center gap-1.5">
-                    <div className="h-2 w-2 rounded-full bg-purple-400" />
-                    Work
-                  </div>
-                </SelectItem>
-                <SelectItem value="family">
-                  <div className="flex items-center gap-1.5">
-                    <div className="h-2 w-2 rounded-full bg-blue-400" />
-                    Family
-                  </div>
-                </SelectItem>
+                {tags?.map((tag) => (
+                  <SelectItem value={tag.id ?? tag.name} key={tag.id}>
+                    <div className="flex items-center gap-1.5">
+                      <div className={cn('h-2 w-2 rounded-full', tag.color)} />
+                      {tag.name}
+                    </div>
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>

@@ -180,6 +180,7 @@ export function Sidebar({ user }: Props) {
                 <Button
                   className="mt-4 flex w-full items-center justify-start gap-2 px-2"
                   variant="ghost"
+                  onClick={() => push('/settings/tags')}
                 >
                   <Plus className="h-4 w-4" />
                   <span className="text-sm ">Create new tag</span>

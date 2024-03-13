@@ -1,4 +1,4 @@
-import { Task, TaskPriority } from '../types'
+import { Tag, Task, TaskPriority } from '../types'
 
 export type GetTasksResponse = Task[]
 
@@ -22,3 +22,10 @@ export interface UpdateTaskBody {
   completed?: boolean
   deleted?: boolean
 }
+
+export interface CreateTagBody {
+  name: string
+  color: string
+}
+
+export type GetTagsResponse = Tag[]
