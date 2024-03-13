@@ -6,7 +6,6 @@ import {
   CreditCard,
   DollarSign,
   Fingerprint,
-  GalleryVerticalEnd,
   Settings2,
   Tag,
   User,
@@ -16,7 +15,7 @@ import { usePathname, useRouter } from 'next/navigation'
 
 import { SidebarNavItem } from './sidebar-nav-item'
 
-export function Sidebar() {
+export function SettingsSidebar() {
   const { push } = useRouter()
   const pathname = usePathname()
 
@@ -38,12 +37,6 @@ export function Sidebar() {
           <div>
             <h3 className="text-md font-semibold">General</h3>
             <ul className="mt-2 space-y-1">
-              <SidebarNavItem
-                label="Lists"
-                onClick={() => push('/settings/lists')}
-                active={isActive('/settings/lists')}
-                icon={GalleryVerticalEnd}
-              />
               <SidebarNavItem
                 label="Tags"
                 onClick={() => push('/settings/tags')}

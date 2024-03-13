@@ -172,6 +172,10 @@ export function Sidebar({ user }: Props) {
                       `/app/${tag.name.replaceAll(' ', '-').toLocaleLowerCase()}`,
                     )
                   }
+                  active={
+                    pathname ===
+                    `/app/${tag.name.replaceAll(' ', '-').toLocaleLowerCase()}`
+                  }
                   count={tag.tasks?.length || 0}
                   color={tag.color}
                 />

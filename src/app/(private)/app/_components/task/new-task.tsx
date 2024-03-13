@@ -36,6 +36,7 @@ const taskFormSchema = z.object({
   priority: z.enum(['none', 'low', 'medium', 'high', 'urgent'], {
     invalid_type_error: 'Please select a priority.',
   }),
+  tagId: z.string().optional(),
 })
 
 type TaskForm = z.infer<typeof taskFormSchema>
@@ -49,8 +50,15 @@ export function NewTask() {
     },
   })
 
-  function updateTaskListCache({ dueDate, priority, title }: TaskForm) {
+  const { data: tags } = useQuery({
+    queryKey: ['tags'],
+    queryFn: getTags,
+  })
+
+  function updateTaskListCache({ dueDate, priority, title, tagId }: TaskForm) {
     const cached = queryClient.getQueryData<GetTasksResponse>(['tasks'])
+
+    const tag = tags?.find((tag) => tag.id === tagId)
 
     if (cached) {
       queryClient.setQueryData<GetTasksResponse>(
@@ -61,6 +69,17 @@ export function NewTask() {
             title,
             priority,
             dueDate,
+            tag: tag
+              ? {
+                  id: tag.id || '',
+                  name: tag.name,
+                  color: tag.color,
+                  disabled: tag.disabled || false,
+                  userId: tag.userId || '',
+                  createdAt: tag.createdAt || '',
+                  updatedAt: tag.updatedAt || '',
+                }
+              : undefined,
           },
         ],
       )
@@ -72,11 +91,12 @@ export function NewTask() {
   const { mutateAsync: saveTask, isPending } = useMutation({
     mutationFn: createTask,
 
-    onMutate({ priority, title, dueDate }) {
+    onMutate({ priority, title, dueDate, tagId }) {
       const { cached } = updateTaskListCache({
         priority,
         title,
         dueDate,
+        tagId,
       })
 
       toast({
@@ -95,11 +115,6 @@ export function NewTask() {
         description: 'Something went wrong.',
       })
     },
-  })
-
-  const { data: tags } = useQuery({
-    queryKey: ['tags'],
-    queryFn: getTags,
   })
 
   const onSubmit = async (data: TaskForm) => {
@@ -121,6 +136,7 @@ export function NewTask() {
       priority: data.priority,
       title: data.title,
       dueDate: data.dueDate && format(new Date(data.dueDate), 'yyyy-MM-dd'),
+      tagId: data.tagId,
     })
   }
 
@@ -183,6 +199,7 @@ export function NewTask() {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="w-full lg:w-[180px]">
@@ -226,24 +243,41 @@ export function NewTask() {
             )}
           />
 
-          <Select>
-            <SelectTrigger className="w-full lg:w-[180px]">
-              <SelectValue placeholder="Select a tag" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Tag</SelectLabel>
-                {tags?.map((tag) => (
-                  <SelectItem value={tag.id ?? tag.name} key={tag.id}>
-                    <div className="flex items-center gap-1.5">
-                      <div className={cn('h-2 w-2 rounded-full', tag.color)} />
-                      {tag.name}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <FormField
+            control={form.control}
+            name="tagId"
+            render={({ field }) => (
+              <FormItem>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  value={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full lg:w-[180px]">
+                      <SelectValue placeholder="Select a tag" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Tag</SelectLabel>
+                      {tags?.map((tag) => (
+                        <SelectItem value={tag.id ?? 'none'} key={tag.id}>
+                          <div className="flex items-center gap-1.5">
+                            <div
+                              className={cn('h-2 w-2 rounded-full', tag.color)}
+                            />
+                            {tag.name}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+
           <Button
             className="w-full lg:w-[130px]"
             type="submit"

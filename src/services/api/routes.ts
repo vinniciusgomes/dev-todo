@@ -6,6 +6,7 @@ import {
   GetTagsResponse,
   GetTasksQuery,
   GetTasksResponse,
+  UpdateTagBody,
   UpdateTaskBody,
 } from './types'
 
@@ -47,6 +48,12 @@ export async function createTag(body: CreateTagBody) {
 
 export async function getTags() {
   const response = await http.get<GetTagsResponse>('/tags')
+
+  return response.data
+}
+
+export async function updateTag(body: UpdateTagBody) {
+  const response = await http.put('/tags', body)
 
   return response.data
 }

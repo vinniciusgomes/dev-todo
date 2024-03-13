@@ -12,17 +12,26 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  console.log(req)
+
+  let tagConnect = {}
+  if (req.tagId) {
+    tagConnect = { connect: { id: req.tagId } }
+  }
+
   await prisma.task.create({
     data: {
       title: req.title,
       priority: req.priority,
       dueDate: req.dueDate ?? null,
       user: { connect: { email: session?.user?.email } },
+      tag: tagConnect,
     },
   })
 
   return NextResponse.json({ status: 201 })
 }
+
 export async function GET(request: NextRequest) {
   const session = await auth()
 

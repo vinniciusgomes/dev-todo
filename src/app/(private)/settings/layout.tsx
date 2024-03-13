@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import { Sidebar } from './_components/sidebar'
+import { SettingsSidebar } from './_components/settings-side-bar'
 
 export const metadata: Metadata = {
   title: 'Settings',
@@ -16,7 +16,7 @@ export default async function RootLayout({
 }>) {
   return (
     <main className="flex h-screen w-full">
-      <Sidebar />
+      <SettingsSidebar />
 
       <ScrollArea className="no-scrollbar mx-auto h-screen max-w-[800px] flex-1">
         <div className="px-4 py-6 lg:px-8 lg:py-16">{children}</div>

@@ -11,7 +11,7 @@ export type Task = {
   deleted?: boolean
   createdAt?: string
   updatedAt?: string
-  todoTagId?: string
+  tagId?: string
   tag?: {
     id: string
     name: string
@@ -28,6 +28,7 @@ export type Tag = {
   name: string
   color: string
   tasks?: Task[]
+  disabled?: boolean
   userId?: string
   createdAt?: string
   updatedAt?: string

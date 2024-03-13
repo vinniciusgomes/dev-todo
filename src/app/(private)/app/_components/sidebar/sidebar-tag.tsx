@@ -20,11 +20,17 @@ export function SidebarTag({
   return (
     <li
       className={
-        active ? 'rounded-md bg-accent hover:text-accent-foreground' : ''
+        active
+          ? 'rounded-md bg-primary text-primary-foreground shadow hover:bg-primary/90'
+          : ''
       }
     >
       <Button
-        className="flex w-full items-center justify-between px-2"
+        className={cn(
+          'flex w-full items-center justify-between px-2',
+          active &&
+            'rounded-md bg-primary text-primary-foreground shadow hover:bg-primary/90 hover:text-primary-foreground',
+        )}
         variant="ghost"
         onClick={onClick}
       >

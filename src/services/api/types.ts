@@ -13,6 +13,7 @@ export interface CreateTaskBody {
   title: string
   priority: TaskPriority
   dueDate?: string
+  tagId?: string
 }
 
 export interface UpdateTaskBody {
@@ -30,3 +31,9 @@ export interface CreateTagBody {
 }
 
 export type GetTagsResponse = Tag[]
+
+export interface UpdateTagBody {
+  id: string
+  name?: string
+  color?: string
+}
