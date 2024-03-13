@@ -61,7 +61,7 @@ model Task {
   userId      String
   completed   Boolean  @default(false)
   dueDate     String
-  tags        Tag?     @relation(fields: [tagId], references: [id])
+  tag         Tag?     @relation(fields: [tagId], references: [id])
   priority    String
   deleted     Boolean  @default(false)
   createdAt   DateTime @default(now())
@@ -73,6 +73,7 @@ model Tag {
   id        String   @id @default(cuid())
   name      String
   color     String
+  disabled  Boolean?
   tasks     Task[]
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String

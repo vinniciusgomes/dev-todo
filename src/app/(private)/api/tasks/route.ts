@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({ status: 201 })
 }
-
 export async function GET(request: NextRequest) {
   const session = await auth()
 
@@ -53,6 +52,9 @@ export async function GET(request: NextRequest) {
 
   let result = await prisma.task.findMany({
     where,
+    include: {
+      tag: true,
+    },
   })
 
   result = result.sort((a, b) => {

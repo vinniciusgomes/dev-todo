@@ -122,7 +122,9 @@ export function TaskItem({ task }: Props) {
             {format(utcToZonedTime(task.dueDate, 'UTC'), 'dd MMM yyyy')}
           </Badge>
         )}
-        <Badge className="bg-purple-400">Work</Badge>
+        {task.tag?.id && (
+          <Badge className={task.tag.color}>{task.tag?.name}</Badge>
+        )}
 
         <Button size="text" variant="text">
           <Eye className="h-4 w-4" />

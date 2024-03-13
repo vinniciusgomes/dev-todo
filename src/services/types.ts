@@ -12,6 +12,15 @@ export type Task = {
   createdAt?: string
   updatedAt?: string
   todoTagId?: string
+  tag?: {
+    id: string
+    name: string
+    color: string
+    disabled: boolean
+    userId: string
+    createdAt: string
+    updatedAt: string
+  }
 }
 
 export type Tag = {
