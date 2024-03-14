@@ -29,7 +29,7 @@ export function SettingsSidebar() {
         <div>
           <Link href="/app" className="flex items-center gap-2">
             <ChevronLeft className="h-4 w-4" />
-            <span>Settings</span>
+            <span>Back</span>
           </Link>
         </div>
 

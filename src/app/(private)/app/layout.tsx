@@ -30,7 +30,7 @@ export default async function RootLayout({
           <div className="mb-6 lg:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline">
+                <Button variant="text" size="text">
                   <Menu />
                 </Button>
               </SheetTrigger>

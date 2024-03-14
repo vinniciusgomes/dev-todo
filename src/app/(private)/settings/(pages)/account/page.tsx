@@ -49,7 +49,7 @@ export default function Account() {
           <p className="mb-2 text-sm font-medium">Full name</p>
           <div>
             <Input className="shadow-none" value="Vinnicius Gomes" />
-            <span className="text-[0.8rem] text-muted-foreground">
+            <span className="text-xs text-muted-foreground">
               This is the name that will be displayed on your profile and in
               emails.
             </span>
@@ -57,13 +57,8 @@ export default function Account() {
         </div>
 
         <div>
-          <div className="mb-2 flex items-center gap-2">
-            <p className="text-sm font-medium">Username </p>
-            <span className="text-sm text-muted-foreground">—</span>
-            <span className="text-sm text-muted-foreground">
-              Nickname or first name, however you want to be called in DevToDo
-            </span>
-          </div>
+          <p className="mb-2 text-sm font-medium">Username </p>
+
           <div className="relative flex items-center">
             <span className="absolute left-4 text-muted-foreground">@</span>
             <Input
@@ -72,6 +67,10 @@ export default function Account() {
               value="vinniciusgomes"
             />
           </div>
+          <span className="text-xs text-muted-foreground">
+            This is the name that will be displayed on your profile and in
+            emails.
+          </span>
         </div>
 
         <div>
@@ -106,8 +105,14 @@ export default function Account() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button className="mt-4 w-max">Update account</Button>
-          <Button className="mt-4 w-max text-red-600" variant="outline">
+          <Button className="mt-4 w-max" size="default">
+            Update account
+          </Button>
+          <Button
+            className="mt-4 w-max text-red-600"
+            size="default"
+            variant="outline"
+          >
             Delete account
           </Button>
         </div>

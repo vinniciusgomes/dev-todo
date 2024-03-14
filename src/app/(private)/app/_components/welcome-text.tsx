@@ -36,7 +36,7 @@ export function WelcomeText() {
   return (
     <div className="flex flex-col">
       <h1 className="text-2xl font-semibold">
-        Good {getDayPeriod()}, {useName?.split(' ')[0]}!{' '}
+        Good {getDayPeriod()} {useName && `, ${useName?.split(' ')[0]}!`}{' '}
         {getDayPeriod() === 'evening' ? '🌙' : '☀️'}
       </h1>
       <span className="text-sm text-muted-foreground">
