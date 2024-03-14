@@ -41,26 +41,41 @@ export async function GET(request: NextRequest) {
     user: { email: session?.user?.email },
   }
 
-  const completed = request.nextUrl.searchParams.get('completed') as string
-  const deleted = request.nextUrl.searchParams.get('deleted') as string
-  const dueDate = request.nextUrl.searchParams.get('dueDate') as string
-  const tagId = request.nextUrl.searchParams.get('tagId') as string
+  const queryParams = request.nextUrl.searchParams
 
-  if (completed) {
-    where.completed = { equals: true }
+  interface FilterOptions {
+    completed: string | null
+    deleted: string | null
+    dueDate: string | null
+    tagId: string | null
   }
 
-  if (deleted) {
-    where.deleted = { equals: true }
+  const filterOptions: FilterOptions = {
+    completed: queryParams.get('completed'),
+    deleted: queryParams.get('deleted'),
+    dueDate: queryParams.get('dueDate'),
+    tagId: queryParams.get('tagId'),
   }
 
-  if (dueDate) {
-    where.dueDate = { equals: dueDate }
-  }
-
-  if (tagId) {
-    where.tagId = { equals: tagId }
-  }
+  Object.keys(filterOptions).forEach((key) => {
+    const value = filterOptions[key as keyof FilterOptions]
+    if (value !== null && value !== undefined) {
+      switch (key) {
+        case 'completed':
+          where.completed = { equals: value === 'true' }
+          break
+        case 'deleted':
+          where.deleted = { equals: value === 'true' }
+          break
+        case 'dueDate':
+          where.dueDate = { equals: value }
+          break
+        case 'tagId':
+          where.tagId = { equals: value }
+          break
+      }
+    }
+  })
 
   let result = await prisma.task.findMany({
     where,

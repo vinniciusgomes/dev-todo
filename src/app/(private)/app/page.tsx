@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Calendar, CalendarDays, CalendarOff, Sunrise } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 
+import { Separator } from '@/components/ui/separator'
 import { getTasks } from '@/services/api/routes'
 import { Task } from '@/services/types'
 
@@ -20,7 +21,6 @@ export default function Page() {
   const { data: tasks } = useQuery({
     queryKey: ['tasks'],
     queryFn: () => getTasks({}),
-    staleTime: 10 * (60 * 1000), // 10 mins
   })
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function Page() {
           const dueDate = new Date(task.dueDate)
           dueDateString = dueDate.toISOString().split('T')[0]
         } else {
-          dueDateString = 'No deadline'
+          dueDateString = 'No date'
         }
 
         formattedTasksByDueDate[dueDateString] =
@@ -46,7 +46,7 @@ export default function Page() {
   }, [tasks])
 
   function renderListIcon(dueDate: string) {
-    if (dueDate === 'No deadline') {
+    if (dueDate === 'No date') {
       return CalendarOff
     }
 
@@ -70,25 +70,33 @@ export default function Page() {
         <NewTask />
       </div>
       <div className="grid gap-6">
-        {Object.entries(tasksByDueDate).map(([dueDate, tasks]) => (
-          <div key={dueDate}>
-            <TaskList
-              listName={
-                dueDate === 'No deadline'
-                  ? 'No deadline'
-                  : formatDueDate(dueDate)
-              }
-              listIcon={renderListIcon(dueDate)}
-              listDescription={
-                dueDate === 'No deadline'
-                  ? ''
-                  : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
-              }
-              defaultOpen
-              tasks={tasks}
-            />
-          </div>
-        ))}
+        {Object.entries(tasksByDueDate).map(([dueDate, tasks], index) => {
+          const tasksWithoutCompletedAndDeleted = tasks.filter(
+            (task) => !task.completed && !task.deleted,
+          )
+
+          return (
+            <div key={dueDate}>
+              <TaskList
+                listName={
+                  dueDate === 'No date' ? 'No date' : formatDueDate(dueDate)
+                }
+                listIcon={renderListIcon(dueDate)}
+                listDescription={
+                  dueDate === 'No date'
+                    ? ''
+                    : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
+                }
+                defaultOpen={index === 0}
+                tasks={tasksWithoutCompletedAndDeleted}
+              />
+
+              {index !== Object.keys(tasksByDueDate).length - 1 && (
+                <Separator className="mt-6" />
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

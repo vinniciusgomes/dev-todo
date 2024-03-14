@@ -39,7 +39,6 @@ export function Sidebar({ user }: Props) {
   const { data: tasks } = useQuery({
     queryKey: ['tasks'],
     queryFn: () => getTasks({}),
-    staleTime: 10 * (60 * 1000), // 10 mins
   })
 
   const { data: tags } = useQuery({
@@ -83,7 +82,7 @@ export function Sidebar({ user }: Props) {
     tasks?.filter((task) => !task.deleted && !task.completed).length || 0
 
   const completedTasksCount =
-    tasks?.filter((task) => task.completed).length || 0
+    tasks?.filter((task) => task.completed && !task.deleted).length || 0
 
   const trashTasksCount = tasks?.filter((task) => task.deleted).length || 0
 

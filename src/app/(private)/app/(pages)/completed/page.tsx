@@ -21,14 +21,15 @@ export default function Completed() {
       {
         filter: {
           completed: true,
+          deleted: false,
         },
       },
     ],
     queryFn: () =>
       getTasks({
         completed: true,
+        deleted: false,
       }),
-    staleTime: 10 * (60 * 1000), // 10 mins
   })
 
   useEffect(() => {
@@ -63,25 +64,31 @@ export default function Completed() {
       </div>
 
       <div className="mt-10 grid gap-6">
-        {Object.entries(tasksByDueDate).map(([dueDate, tasks]) => (
-          <div key={dueDate}>
-            <TaskList
-              listName={
-                dueDate === 'No deadline'
-                  ? 'No deadline'
-                  : formatDueDate(dueDate)
-              }
-              listIcon={renderListIcon(dueDate)}
-              listDescription={
-                dueDate === 'No deadline'
-                  ? ''
-                  : `All completed tasks ${formatDueDate(dueDate).toLocaleLowerCase()}`
-              }
-              defaultOpen
-              tasks={tasks}
-            />
-          </div>
-        ))}
+        {Object.entries(tasksByDueDate).map(([dueDate, tasks]) => {
+          const completedTasks = tasks.filter(
+            (task) => task.completed && task.deleted === false,
+          )
+
+          return (
+            <div key={dueDate}>
+              <TaskList
+                listName={
+                  dueDate === 'No deadline'
+                    ? 'No deadline'
+                    : formatDueDate(dueDate)
+                }
+                listIcon={renderListIcon(dueDate)}
+                listDescription={
+                  dueDate === 'No deadline'
+                    ? ''
+                    : `All completed tasks ${formatDueDate(dueDate).toLocaleLowerCase()}`
+                }
+                defaultOpen
+                tasks={completedTasks}
+              />
+            </div>
+          )
+        })}
       </div>
     </main>
   )

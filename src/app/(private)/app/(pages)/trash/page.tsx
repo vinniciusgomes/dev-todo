@@ -13,7 +13,6 @@ export default function Trash() {
       getTasks({
         deleted: true,
       }),
-    staleTime: 10 * (60 * 1000), // 10 mins
   })
 
   return (

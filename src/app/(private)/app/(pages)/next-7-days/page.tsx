@@ -3,9 +3,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
+import { Separator } from '@/components/ui/separator'
 import { getTasks } from '@/services/api/routes'
 import { Task } from '@/services/types'
 
+import { NewTask } from '../../_components/task/new-task'
 import { TaskList } from '../../_components/task/task-list'
 import { formatDueDate } from '../../_utils/formatDueDate'
 import { renderListIcon } from '../../_utils/renderListIcon'
@@ -16,9 +18,11 @@ export default function Next7Days() {
   )
 
   const { data: tasks } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: () => getTasks({}),
-    staleTime: 10 * (60 * 1000), // 10 mins
+    queryKey: ['tasks', { filter: { completed: false } }],
+    queryFn: () =>
+      getTasks({
+        completed: false,
+      }),
   })
 
   useEffect(() => {
@@ -52,8 +56,10 @@ export default function Next7Days() {
         </span>
       </div>
 
-      <div className="grid gap-6">
-        {Object.entries(tasksByDueDate).map(([dueDate, tasks]) => (
+      <NewTask />
+
+      <div className="mt-10 grid gap-6">
+        {Object.entries(tasksByDueDate).map(([dueDate, tasks], index) => (
           <div key={dueDate}>
             <TaskList
               listName={
@@ -67,9 +73,13 @@ export default function Next7Days() {
                   ? ''
                   : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
               }
-              defaultOpen
+              defaultOpen={index === 0}
               tasks={tasks}
             />
+
+            {index !== Object.keys(tasksByDueDate).length - 1 && (
+              <Separator className="mt-6" />
+            )}
           </div>
         ))}
       </div>

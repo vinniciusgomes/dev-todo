@@ -3,6 +3,7 @@
 import { ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Collapsible,
@@ -57,6 +58,10 @@ export function TaskList({
           <div className="flex items-center">
             {Icon && <Icon className="mr-2 h-4 w-4" />}
             <h4 className="font-semibold">{listName}</h4>
+
+            <Badge variant="secondary" className="ml-2">
+              {tasks.length}
+            </Badge>
           </div>
           {listDescription && (
             <p className="text-sm text-muted-foreground">{listDescription}</p>
