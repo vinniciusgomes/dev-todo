@@ -31,7 +31,7 @@ export default function Account() {
       <div className="grid gap-4">
         <div>
           <p className="mb-2 text-sm font-medium">Profile picture</p>
-          <Avatar className="h-36 w-36">
+          <Avatar className="h-20 w-20 md:h-36 md:w-36">
             <AvatarImage
               src="https://github.com/vinniciusgomes.png"
               alt="@vinniciusgomes"

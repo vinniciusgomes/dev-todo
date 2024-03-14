@@ -8,11 +8,11 @@ import { Separator } from '@/components/ui/separator'
 import { getTasks } from '@/services/api/routes'
 import { Task } from '@/services/types'
 
-import { PhraseOfTheDay } from './_components/phrase-of-the-day'
-import { NewTask } from './_components/task/new-task'
-import { TaskList } from './_components/task/task-list'
-import { WelcomeText } from './_components/welcome-text'
-import { formatDueDate } from './_utils/formatDueDate'
+import { PhraseOfTheDay } from '../_components/phrase-of-the-day'
+import { NewTask } from '../_components/task/new-task'
+import { TaskList } from '../_components/task/task-list'
+import { WelcomeText } from '../_components/welcome-text'
+import { formatDueDate } from '../_utils/formatDueDate'
 
 export default function Page() {
   const [tasksByDueDate, setTasksByDueDate] = useState<Record<string, Task[]>>(
@@ -75,6 +75,10 @@ export default function Page() {
             (task) => !task.completed && !task.deleted,
           )
 
+          if (!tasksWithoutCompletedAndDeleted.length) {
+            return null
+          }
+
           return (
             <div key={dueDate}>
               <TaskList
@@ -87,7 +91,7 @@ export default function Page() {
                     ? ''
                     : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
                 }
-                defaultOpen={index === 0}
+                defaultOpen
                 tasks={tasksWithoutCompletedAndDeleted}
               />
 

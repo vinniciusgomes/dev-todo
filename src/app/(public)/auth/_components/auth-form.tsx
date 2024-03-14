@@ -32,7 +32,7 @@ export function AuthForm() {
     setIsLoading(true)
 
     try {
-      await signIn('email', {
+      await signIn('resend', {
         email: data.email,
         redirect: false,
       })

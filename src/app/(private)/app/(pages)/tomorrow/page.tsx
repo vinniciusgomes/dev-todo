@@ -18,12 +18,14 @@ export default function Completed() {
       {
         filter: {
           dueDate: format(tomorrow, 'yyyy-MM-dd'),
+          completed: false,
         },
       },
     ],
     queryFn: () =>
       getTasks({
         dueDate: format(tomorrow, 'yyyy-MM-dd'),
+        completed: false,
       }),
   })
 
@@ -39,7 +41,7 @@ export default function Completed() {
       <NewTask />
 
       <div className="mt-10">
-        {tasks?.map((task) => <TaskItem task={task} key={task.id} />)}
+        {tasks?.map((task) => <TaskItem key={task.id} task={task} />)}
       </div>
     </main>
   )

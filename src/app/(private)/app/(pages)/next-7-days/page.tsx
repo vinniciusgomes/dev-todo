@@ -73,7 +73,7 @@ export default function Next7Days() {
                   ? ''
                   : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
               }
-              defaultOpen={index === 0}
+              defaultOpen
               tasks={tasks}
             />
 
