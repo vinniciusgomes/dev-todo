@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import {
   Calendar,
-  CalendarDays,
   CheckSquare,
   GalleryVerticalEnd,
   Plus,
@@ -135,13 +134,6 @@ export function Sidebar({ user }: Props) {
                 count={tomorrowTasksCount}
                 active={pathname === '/app/tomorrow'}
                 icon={Sunrise}
-              />
-              <SidebarNavItem
-                label="Next 7 days"
-                onClick={() => push('/app/next-7-days')}
-                count={nextSevenDaysTasksCount}
-                active={pathname === '/app/next-7-days'}
-                icon={CalendarDays}
               />
               <SidebarNavItem
                 label="Completed"
