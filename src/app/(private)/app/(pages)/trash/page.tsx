@@ -1,11 +1,10 @@
-'use server'
-
 import { getTasks } from '@/actions/task/actions'
 import { Separator } from '@/components/ui/separator'
 
+import { NewTask } from '../../_components/task/new-task'
 import { TaskList } from '../../_components/task/task-list'
 import { formatDueDate } from '../../_utils/formatDueDate'
-import { sortByDate } from '../../_utils/sortTasksByDate'
+import { sortByDate } from '../../_utils/sortTasks'
 
 export default async function Trash() {
   const tasks = await getTasks({
@@ -17,11 +16,13 @@ export default async function Trash() {
   return (
     <main>
       <div className="mb-10 flex flex-col">
-        <h1 className="text-2xl font-semibold">Completed</h1>
+        <h1 className="text-2xl font-semibold">Trash</h1>
         <span className="text-sm text-muted-foreground">
-          All dompleted tasks.
+          All deleted tasks.
         </span>
       </div>
+
+      <NewTask />
 
       <div className="mt-10 grid gap-6">
         {Object.entries(sortedTasks).map(([dueDate, tasks], index) => {

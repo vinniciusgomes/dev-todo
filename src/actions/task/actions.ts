@@ -4,6 +4,7 @@ import { z } from 'zod'
 
 import { auth } from '@/services/auth'
 import { prisma } from '@/services/database'
+import { TaskPriority } from '@/types'
 
 import {
   createTaskSchema,
@@ -28,6 +29,21 @@ export async function getTasks(query: z.infer<typeof getTasksQuerySchema>) {
     include: {
       tag: true,
     },
+  })
+
+  const priorityOrder: Record<TaskPriority, number> = {
+    urgent: 4,
+    high: 3,
+    medium: 2,
+    low: 1,
+    none: 0,
+  }
+
+  tasks.sort((a, b) => {
+    const priorityA = a.priority || 'none'
+    const priorityB = b.priority || 'none'
+
+    return priorityOrder[priorityB] - priorityOrder[priorityA]
   })
 
   return tasks

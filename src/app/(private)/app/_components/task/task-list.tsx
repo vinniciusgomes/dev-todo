@@ -10,7 +10,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
-import { TaskPriority } from '@/services/types'
 import { Task } from '@/types'
 
 import { TaskItem } from './task-item'
@@ -36,17 +35,6 @@ export function TaskList({
   if (!tasks) {
     return null
   }
-
-  const sortedTasks = [...tasks].sort((a, b) => {
-    const priorityOrder: Record<TaskPriority, number> = {
-      none: 0,
-      low: 1,
-      medium: 2,
-      high: 3,
-      urgent: 4,
-    }
-    return priorityOrder[b.priority] - priorityOrder[a.priority]
-  })
 
   return (
     <Collapsible
@@ -76,7 +64,7 @@ export function TaskList({
         </CollapsibleTrigger>
       </div>
       <CollapsibleContent className="space-y-2">
-        {sortedTasks?.map((task) => <TaskItem key={task.id} task={task} />)}
+        {tasks?.map((task) => <TaskItem key={task.id} task={task} />)}
       </CollapsibleContent>
     </Collapsible>
   )

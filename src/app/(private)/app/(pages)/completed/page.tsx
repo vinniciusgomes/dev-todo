@@ -1,12 +1,10 @@
-'use server'
-
 import { getTasks } from '@/actions/task/actions'
 import { Separator } from '@/components/ui/separator'
 
 import { NewTask } from '../../_components/task/new-task'
 import { TaskList } from '../../_components/task/task-list'
 import { formatDueDate } from '../../_utils/formatDueDate'
-import { sortByDate } from '../../_utils/sortTasksByDate'
+import { sortByDate } from '../../_utils/sortTasks'
 
 export default async function Page() {
   const tasks = await getTasks({
