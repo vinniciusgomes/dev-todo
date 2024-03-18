@@ -1,22 +1,12 @@
 'use client'
 
 import { format } from 'date-fns'
-import { getSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
 
-export function WelcomeText() {
-  const [useName, setUserName] = useState<string>()
+type Props = {
+  userName: string
+}
 
-  async function getUserName() {
-    const session = await getSession()
-
-    if (!session?.user?.name) {
-      return
-    }
-
-    return setUserName(session?.user?.name)
-  }
-
+export function WelcomeText({ userName }: Props) {
   function getDayPeriod() {
     const now = new Date()
     const hour = now.getHours()
@@ -29,14 +19,11 @@ export function WelcomeText() {
     }
   }
 
-  useEffect(() => {
-    getUserName()
-  }, [])
-
   return (
     <div className="flex flex-col">
       <h1 className="text-2xl font-semibold">
-        Good {getDayPeriod()} {useName && `, ${useName?.split(' ')[0]}!`}{' '}
+        Good {getDayPeriod()}
+        {userName && `, ${userName?.split(' ')[0]}!`}{' '}
         {getDayPeriod() === 'evening' ? '🌙' : '☀️'}
       </h1>
       <span className="text-sm text-muted-foreground">
