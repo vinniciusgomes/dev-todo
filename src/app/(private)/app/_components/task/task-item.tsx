@@ -1,6 +1,5 @@
 'use client'
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 import { Eye } from 'lucide-react'
@@ -10,11 +9,8 @@ import { Icons } from '@/components/icon'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { toast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
-import { updateTask } from '@/services/api/routes'
-import { GetTasksResponse } from '@/services/api/types'
-import { Task } from '@/services/types'
+import { Task } from '@/types'
 
 type Props = {
   task: Task
@@ -35,44 +31,10 @@ export function TaskItem({ task }: Props) {
   const [isCompleted, setIsCompleted] = useState<boolean | 'indeterminate'>(
     !!task.completed,
   )
-  const queryClient = useQueryClient()
 
-  const updateTaskListCache = ({
-    id,
-    completed,
-  }: {
-    id: string
-    completed: boolean
-  }) => {
-    const cached = queryClient.getQueryData<GetTasksResponse>(['tasks'])
-
-    if (cached) {
-      queryClient.setQueryData<GetTasksResponse>(
-        ['tasks'],
-        cached.map((task) => (task.id === id ? { ...task, completed } : task)),
-      )
-    }
-
-    return { cached }
+  const handleUpdateTask = async () => {
+    console.log('update')
   }
-
-  const { mutateAsync: checkTask } = useMutation({
-    mutationFn: updateTask,
-    onMutate({ id, completed }) {
-      const { cached } = updateTaskListCache({
-        id,
-        completed: !completed,
-      })
-
-      return { previousTasks: cached }
-    },
-    onError() {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-      })
-    },
-  })
 
   return (
     <div className="grid w-full items-center justify-between gap-4 rounded-md p-4 px-0 lg:flex lg:px-5">
@@ -84,10 +46,7 @@ export function TaskItem({ task }: Props) {
           onCheckedChange={(checked) => {
             setIsCompleted(checked)
             if (task.id) {
-              checkTask({
-                id: task.id,
-                completed: !task.completed,
-              })
+              handleUpdateTask()
             }
           }}
         />

@@ -1,57 +1,32 @@
-'use client'
+import { redirect } from 'next/navigation'
 
-import { useQuery } from '@tanstack/react-query'
-import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { getTags } from '@/actions/tag/actions'
+import { getTasks } from '@/actions/task/actions'
+import { TaskItem } from '@/app/(private)/app/_components/task/task-item'
+import { normalizeTagUrl } from '@/app/(private)/app/_utils/normalizeTagUrl'
+import { Tag } from '@/types'
 
-import { getTags, getTasks } from '@/services/api/routes'
-import { Tag } from '@/services/types'
+export default async function Tag({ params }: { params: { tag: string } }) {
+  const allTags = await getTags()
 
-import { TaskItem } from '../../_components/task/task-item'
+  const tag = allTags.find((tag) => normalizeTagUrl(tag.name) === params.tag)
 
-export default function Tag() {
-  const [tag, setTag] = useState<Tag | null>(null)
-  const pathname = usePathname()
+  if (!tag) {
+    return redirect('/app')
+  }
 
-  const { data: tasks } = useQuery({
-    queryKey: [
-      'tasks',
-      {
-        filter: {
-          tagId: tag?.id,
-        },
-      },
-    ],
-    queryFn: () =>
-      getTasks({
-        tagId: tag?.id || '',
-      }),
+  const tasks = await getTasks({
+    completed: false,
+    deleted: false,
+    tagId: tag.id,
   })
-
-  const { data: tags } = useQuery({
-    queryKey: ['tags'],
-    queryFn: getTags,
-    staleTime: Infinity,
-  })
-
-  useEffect(() => {
-    const tagName = pathname?.split('/').pop()
-
-    const tag = tags?.find(
-      (tag) => tag.name.replaceAll(' ', '-').toLocaleLowerCase() === tagName,
-    )
-
-    if (tag?.id) {
-      setTag(tag)
-    }
-  }, [tags, pathname])
 
   return (
     <main>
       <div className="flex flex-col">
-        <h1 className="text-2xl font-semibold">{tag?.name}</h1>
+        <h1 className="text-2xl font-semibold">{tag.name}</h1>
         <span className="text-sm text-muted-foreground">
-          All {tag?.name} tasks.
+          All {tag.name.toLocaleLowerCase()} tasks.
         </span>
       </div>
 

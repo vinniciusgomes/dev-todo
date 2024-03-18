@@ -1,31 +1,51 @@
-'use client'
+'use server'
 
-import { useQuery } from '@tanstack/react-query'
+import { getTasks } from '@/actions/task/actions'
+import { Separator } from '@/components/ui/separator'
 
-import { getTasks } from '@/services/api/routes'
+import { TaskList } from '../../_components/task/task-list'
+import { formatDueDate } from '../../_utils/formatDueDate'
+import { sortByDate } from '../../_utils/sortTasksByDate'
 
-import { TaskItem } from '../../_components/task/task-item'
-
-export default function Trash() {
-  const { data: tasks } = useQuery({
-    queryKey: ['tasks', { filter: { deleted: true } }],
-    queryFn: () =>
-      getTasks({
-        deleted: true,
-      }),
+export default async function Trash() {
+  const tasks = await getTasks({
+    deleted: true,
   })
+
+  const sortedTasks = sortByDate(tasks)
 
   return (
     <main>
-      <div className="flex flex-col">
-        <h1 className="text-2xl font-semibold">Trash</h1>
+      <div className="mb-10 flex flex-col">
+        <h1 className="text-2xl font-semibold">Completed</h1>
         <span className="text-sm text-muted-foreground">
-          All deleted tasks.
+          All dompleted tasks.
         </span>
       </div>
 
-      <div className="mt-6">
-        {tasks?.map((task) => <TaskItem task={task} key={task.id} />)}
+      <div className="mt-10 grid gap-6">
+        {Object.entries(sortedTasks).map(([dueDate, tasks], index) => {
+          return (
+            <div key={dueDate}>
+              <TaskList
+                listName={
+                  dueDate === 'No date' ? 'No date' : formatDueDate(dueDate)
+                }
+                listDescription={
+                  dueDate === 'No date'
+                    ? ''
+                    : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
+                }
+                defaultOpen
+                tasks={tasks}
+              />
+
+              {index !== Object.keys(sortedTasks).length - 1 && (
+                <Separator className="mt-6" />
+              )}
+            </div>
+          )
+        })}
       </div>
     </main>
   )

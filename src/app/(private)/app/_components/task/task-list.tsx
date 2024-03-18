@@ -10,7 +10,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
-import { Task, TaskPriority } from '@/services/types'
+import { TaskPriority } from '@/services/types'
+import { Task } from '@/types'
 
 import { TaskItem } from './task-item'
 

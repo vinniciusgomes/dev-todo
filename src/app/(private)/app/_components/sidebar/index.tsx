@@ -1,6 +1,5 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import {
   Calendar,
@@ -15,6 +14,7 @@ import { Session } from 'next-auth'
 import { useEffect, useState } from 'react'
 
 import { getTags } from '@/actions/tag/actions'
+import { getTasks } from '@/actions/task/actions'
 import { Icons } from '@/components/icon'
 import { Button } from '@/components/ui/button'
 import {
@@ -23,9 +23,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { getTasks } from '@/services/api/routes'
-import { Tag } from '@/types'
+import { Tag, Task } from '@/types'
 
+import { normalizeTagUrl } from '../../_utils/normalizeTagUrl'
 import { SettingsMenu } from './settings-menu'
 import { SidebarNavItem } from './sidebar-nav-item'
 import { SidebarTag } from './sidebar-tag'
@@ -35,14 +35,27 @@ type Props = {
 }
 
 export function Sidebar({ user }: Props) {
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [tags, setTags] = useState<Tag[]>([])
   const { push } = useRouter()
   const pathname = usePathname()
-  const [tags, setTags] = useState<Tag[]>([])
 
-  const { data: tasks } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: () => getTasks({}),
-  })
+  const handleGetTasks = async () => {
+    const tasks = await getTasks({})
+
+    setTasks(tasks)
+  }
+
+  const handleGetTags = async () => {
+    const tags = await getTags()
+
+    setTags(tags)
+  }
+
+  useEffect(() => {
+    handleGetTasks()
+    handleGetTags()
+  }, [])
 
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
@@ -70,18 +83,6 @@ export function Sidebar({ user }: Props) {
     tasks?.filter((task) => task.completed && !task.deleted).length || 0
 
   const trashTasksCount = tasks?.filter((task) => task.deleted).length || 0
-
-  const handleGetTags = async () => {
-    const tags = await getTags()
-
-    if (!tags) return
-
-    setTags(tags)
-  }
-
-  useEffect(() => {
-    handleGetTags()
-  }, [])
 
   return (
     <aside className="hidden w-full max-w-[280px] flex-col justify-between border-r px-6 py-6 lg:flex">
@@ -158,15 +159,8 @@ export function Sidebar({ user }: Props) {
                 <SidebarTag
                   key={tag.id}
                   label={tag.name}
-                  onClick={() =>
-                    push(
-                      `/app/${tag.name.replaceAll(' ', '-').toLocaleLowerCase()}`,
-                    )
-                  }
-                  active={
-                    pathname ===
-                    `/app/${tag.name.replaceAll(' ', '-').toLocaleLowerCase()}`
-                  }
+                  onClick={() => push(`/app/${normalizeTagUrl(tag.name)}`)}
+                  active={pathname === `/app/${normalizeTagUrl(tag.name)}`}
                   count={tag.tasks?.length || 0}
                   color={tag.color}
                 />

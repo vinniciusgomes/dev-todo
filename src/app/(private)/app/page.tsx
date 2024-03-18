@@ -1,36 +1,18 @@
-'use client'
+'use server'
 
-import { useQuery } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
-
+import { getTasks } from '@/actions/task/actions'
 import { Separator } from '@/components/ui/separator'
-import { getTasks } from '@/services/api/routes'
-import { Task } from '@/services/types'
 
 import { PhraseOfTheDay } from './_components/phrase-of-the-day'
 import { NewTask } from './_components/task/new-task'
 import { TaskList } from './_components/task/task-list'
 import { WelcomeText } from './_components/welcome-text'
 import { formatDueDate } from './_utils/formatDueDate'
-import { renderListIcon } from './_utils/renderListIcon'
 import { sortByDate } from './_utils/sortTasksByDate'
 
-export default function Page() {
-  const [tasksByDueDate, setTasksByDueDate] = useState<Record<string, Task[]>>(
-    {},
-  )
-
-  const { data: tasks } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: () => getTasks({}),
-  })
-
-  useEffect(() => {
-    if (tasks) {
-      const sortedTasks = sortByDate(tasks)
-      setTasksByDueDate(sortedTasks)
-    }
-  }, [tasks])
+export default async function Page() {
+  const tasks = await getTasks({})
+  const sortedTasks = sortByDate(tasks)
 
   return (
     <div className="flex w-full flex-col gap-10">
@@ -42,7 +24,7 @@ export default function Page() {
         <NewTask />
       </div>
       <div className="grid gap-6">
-        {Object.entries(tasksByDueDate).map(([dueDate, tasks], index) => {
+        {Object.entries(sortedTasks).map(([dueDate, tasks], index) => {
           const tasksWithoutCompletedAndDeleted = tasks.filter(
             (task) => !task.completed && !task.deleted,
           )
@@ -57,7 +39,6 @@ export default function Page() {
                 listName={
                   dueDate === 'No date' ? 'No date' : formatDueDate(dueDate)
                 }
-                listIcon={renderListIcon(dueDate)}
                 listDescription={
                   dueDate === 'No date'
                     ? ''
@@ -67,7 +48,7 @@ export default function Page() {
                 tasks={tasksWithoutCompletedAndDeleted}
               />
 
-              {index !== Object.keys(tasksByDueDate).length - 1 && (
+              {index !== Object.keys(sortedTasks).length - 1 && (
                 <Separator className="mt-6" />
               )}
             </div>

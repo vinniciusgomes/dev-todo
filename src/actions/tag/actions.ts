@@ -42,7 +42,12 @@ export async function getTags() {
       createdAt: 'desc',
     },
     include: {
-      tasks: true,
+      tasks: {
+        where: {
+          completed: false,
+          deleted: false,
+        },
+      },
     },
   })
 

@@ -1,11 +1,13 @@
 'use client'
-
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { getTags } from '@/actions/tag/actions'
+import { createTask } from '@/actions/task/actions'
 import { Icons } from '@/components/icon'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -27,8 +29,7 @@ import {
 } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
-import { createTask, getTags } from '@/services/api/routes'
-import { GetTasksResponse } from '@/services/api/types'
+import { Tag } from '@/types'
 
 const taskFormSchema = z.object({
   title: z.string().min(1, { message: 'Please enter a task name.' }),
@@ -42,83 +43,28 @@ const taskFormSchema = z.object({
 type TaskForm = z.infer<typeof taskFormSchema>
 
 export function NewTask() {
+  const router = useRouter()
+  const [tags, setTags] = useState<Tag[]>([])
   const { toast } = useToast()
-  const queryClient = useQueryClient()
   const form = useForm<TaskForm>({
     defaultValues: {
       priority: 'none',
     },
   })
 
-  const { data: tags } = useQuery({
-    queryKey: ['tags'],
-    queryFn: getTags,
-    staleTime: Infinity,
-  })
+  const handleGetTags = async () => {
+    const tags = await getTags()
 
-  function updateTaskListCache({ dueDate, priority, title, tagId }: TaskForm) {
-    const cached = queryClient.getQueryData<GetTasksResponse>(['tasks'])
-
-    const tag = tags?.find((tag) => tag.id === tagId)
-
-    if (cached) {
-      queryClient.setQueryData<GetTasksResponse>(
-        ['tasks'],
-        [
-          ...cached,
-          {
-            title,
-            priority,
-            dueDate,
-            tag: tag
-              ? {
-                  id: tag.id || '',
-                  name: tag.name,
-                  color: tag.color,
-                  disabled: tag.disabled || false,
-                  userId: tag.userId || '',
-                  createdAt: tag.createdAt || '',
-                  updatedAt: tag.updatedAt || '',
-                }
-              : undefined,
-          },
-        ],
-      )
-    }
-
-    return { cached }
+    setTags(tags)
   }
 
-  const { mutateAsync: saveTask, isPending } = useMutation({
-    mutationFn: createTask,
-
-    onMutate({ priority, title, dueDate, tagId }) {
-      const { cached } = updateTaskListCache({
-        priority,
-        title,
-        dueDate,
-        tagId,
-      })
-
-      toast({
-        title: 'Task created',
-        description: 'Your task has been created.',
-      })
-
-      form.reset()
-      form.clearErrors()
-
-      return { previousTasks: cached }
-    },
-    onError() {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-      })
-    },
-  })
+  useEffect(() => {
+    handleGetTags()
+  }, [])
 
   const onSubmit = async (data: TaskForm) => {
+    const selectedTag = tags.find((tag) => tag.id === data.tagId)
+
     if (!data.title) {
       return toast({
         title: 'Invalid title',
@@ -133,11 +79,19 @@ export function NewTask() {
       })
     }
 
-    await saveTask({
+    await createTask({
       priority: data.priority,
       title: data.title,
       dueDate: data.dueDate && format(new Date(data.dueDate), 'yyyy-MM-dd'),
-      tagId: data.tagId,
+      tagId: selectedTag?.id,
+    })
+
+    form.reset()
+    router.refresh()
+
+    toast({
+      title: 'Task created successfully',
+      description: 'Your task has been created.',
     })
   }
 
@@ -279,16 +233,8 @@ export function NewTask() {
             )}
           />
 
-          <Button
-            className="w-full lg:w-[130px]"
-            type="submit"
-            disabled={isPending}
-          >
-            {isPending ? (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Plus className="mr-2 h-4 w-4" />
-            )}
+          <Button className="w-full lg:w-[130px]" type="submit">
+            <Plus className="mr-2 h-4 w-4" />
             Create task
           </Button>
         </div>

@@ -1,4 +1,4 @@
-import { Task } from '@/services/types'
+import { Task } from '@/types'
 
 export const sortByDate = (tasks: Task[]) => {
   const formattedTasksByDueDate: Record<string, Task[]> = {}

@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { toast } from '@/components/ui/use-toast'
 
 const tailwindColorList = [
   { name: 'Red', value: 'bg-red-500' },
@@ -62,6 +63,13 @@ export function CreateTagDialog() {
   const onSubmit = async (data: TagForm) => {
     await createTag(data)
     router.refresh()
+    form.reset()
+    form.setValue('color', '')
+
+    toast({
+      title: 'Tag created',
+      description: 'The tag has been successfully created.',
+    })
   }
 
   return (

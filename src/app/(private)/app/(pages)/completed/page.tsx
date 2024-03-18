@@ -1,91 +1,52 @@
-'use client'
+'use server'
 
-import { useQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { getTasks } from '@/actions/task/actions'
+import { Separator } from '@/components/ui/separator'
 
-import { getTasks } from '@/services/api/routes'
-import { Task } from '@/services/types'
-
+import { NewTask } from '../../_components/task/new-task'
 import { TaskList } from '../../_components/task/task-list'
 import { formatDueDate } from '../../_utils/formatDueDate'
-import { renderListIcon } from '../../_utils/renderListIcon'
+import { sortByDate } from '../../_utils/sortTasksByDate'
 
-export default function Completed() {
-  const [tasksByDueDate, setTasksByDueDate] = useState<Record<string, Task[]>>(
-    {},
-  )
-
-  const { data: tasks } = useQuery({
-    queryKey: [
-      'tasks',
-      {
-        filter: {
-          completed: true,
-          deleted: false,
-        },
-      },
-    ],
-    queryFn: () =>
-      getTasks({
-        completed: true,
-        deleted: false,
-      }),
+export default async function Page() {
+  const tasks = await getTasks({
+    completed: true,
+    deleted: false,
   })
 
-  useEffect(() => {
-    if (tasks) {
-      const formattedTasksByDueDate: Record<string, Task[]> = {}
-
-      tasks.forEach((task) => {
-        let dueDateString: string
-        if (typeof task.dueDate === 'string') {
-          const dueDate = new Date(task.dueDate)
-          dueDateString = dueDate.toISOString().split('T')[0]
-        } else {
-          dueDateString = 'No deadline'
-        }
-
-        formattedTasksByDueDate[dueDateString] =
-          formattedTasksByDueDate[dueDateString] || []
-        formattedTasksByDueDate[dueDateString].push(task)
-      })
-
-      setTasksByDueDate(formattedTasksByDueDate)
-    }
-  }, [tasks])
+  const sortedTasks = sortByDate(tasks)
 
   return (
     <main>
-      <div className="flex flex-col">
+      <div className="mb-10 flex flex-col">
         <h1 className="text-2xl font-semibold">Completed</h1>
         <span className="text-sm text-muted-foreground">
-          All completed tasks.
+          All dompleted tasks.
         </span>
       </div>
 
-      <div className="mt-10 grid gap-6">
-        {Object.entries(tasksByDueDate).map(([dueDate, tasks]) => {
-          const completedTasks = tasks.filter(
-            (task) => task.completed && task.deleted === false,
-          )
+      <NewTask />
 
+      <div className="mt-10 grid gap-6">
+        {Object.entries(sortedTasks).map(([dueDate, tasks], index) => {
           return (
             <div key={dueDate}>
               <TaskList
                 listName={
-                  dueDate === 'No deadline'
-                    ? 'No deadline'
-                    : formatDueDate(dueDate)
+                  dueDate === 'No date' ? 'No date' : formatDueDate(dueDate)
                 }
-                listIcon={renderListIcon(dueDate)}
                 listDescription={
-                  dueDate === 'No deadline'
+                  dueDate === 'No date'
                     ? ''
-                    : `All completed tasks ${formatDueDate(dueDate).toLocaleLowerCase()}`
+                    : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
                 }
                 defaultOpen
-                tasks={completedTasks}
+                tasks={tasks}
               />
+
+              {index !== Object.keys(sortedTasks).length - 1 && (
+                <Separator className="mt-6" />
+              )}
             </div>
           )
         })}
