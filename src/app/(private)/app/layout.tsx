@@ -39,7 +39,7 @@ export default async function RootLayout({
                 </Button>
               </SheetTrigger>
 
-              <NavigationSheet />
+              <NavigationSheet tasks={tasks} tags={tags} />
             </Sheet>
           </div>
 

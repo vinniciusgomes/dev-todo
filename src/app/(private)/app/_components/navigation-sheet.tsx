@@ -12,10 +12,7 @@ import {
   Trash2,
 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 
-import { getTags } from '@/actions/tag/actions'
-import { getTasks } from '@/actions/task/actions'
 import { Button } from '@/components/ui/button'
 import {
   SheetContent,
@@ -28,28 +25,14 @@ import { Tag, Task } from '@/types'
 import { SidebarNavItem } from './sidebar/sidebar-nav-item'
 import { SidebarTag } from './sidebar/sidebar-tag'
 
-export function NavigationSheet() {
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [tags, setTags] = useState<Tag[]>([])
+type Props = {
+  tasks: Task[]
+  tags: Tag[]
+}
+
+export function NavigationSheet({ tasks, tags }: Props) {
   const { push } = useRouter()
   const pathname = usePathname()
-
-  const handleGetTasks = async () => {
-    const tasks = await getTasks({})
-
-    setTasks(tasks)
-  }
-
-  const handleGetTags = async () => {
-    const tags = await getTags()
-
-    setTags(tags)
-  }
-
-  useEffect(() => {
-    handleGetTasks()
-    handleGetTags()
-  }, [])
 
   const today = new Date()
   const tomorrow = new Date()
