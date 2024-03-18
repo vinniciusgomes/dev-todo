@@ -1,7 +1,10 @@
+'use client'
+
 import { format } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 import { Eye } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 import { updateTask } from '@/actions/task/actions'
 import { Icons } from '@/components/icon'
@@ -27,10 +30,13 @@ const priorityMap = {
   },
 }
 
-export async function TaskItem({ task }: Props) {
+export function TaskItem({ task }: Props) {
+  const [completed, setCompleted] = useState(task.completed)
   const router = useRouter()
 
   const handleUpdateTask = async () => {
+    setCompleted(!task.completed)
+
     await updateTask({
       id: task.id,
       title: task.title,
@@ -53,7 +59,7 @@ export async function TaskItem({ task }: Props) {
       <div className="items-top flex space-x-3">
         <Checkbox
           id="terms1"
-          checked={task.completed}
+          checked={completed}
           className="h-4 w-4"
           onCheckedChange={handleUpdateTask}
         />
@@ -62,7 +68,7 @@ export async function TaskItem({ task }: Props) {
             htmlFor="terms1"
             className={cn(
               'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
-              task.completed && 'text-muted-foreground line-through opacity-50',
+              completed && 'text-muted-foreground line-through opacity-50',
             )}
           >
             {task.title}
@@ -71,8 +77,7 @@ export async function TaskItem({ task }: Props) {
             <p
               className={cn(
                 'max-w-[700px] truncate text-sm text-muted-foreground',
-                task.completed &&
-                  'text-muted-foreground line-through opacity-50',
+                completed && 'text-muted-foreground line-through opacity-50',
               )}
             >
               {task.description}
