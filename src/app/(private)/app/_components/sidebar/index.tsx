@@ -11,10 +11,7 @@ import {
 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { Session } from 'next-auth'
-import { useEffect, useState } from 'react'
 
-import { getTags } from '@/actions/tag/actions'
-import { getTasks } from '@/actions/task/actions'
 import { normalizeTagUrl } from '@/app/(private)/app/_utils/normalizeTagUrl'
 import { Icons } from '@/components/icon'
 import { Button } from '@/components/ui/button'
@@ -32,30 +29,13 @@ import { SidebarTag } from './sidebar-tag'
 
 type Props = {
   user: Session['user']
+  tasks: Task[]
+  tags: Tag[]
 }
 
-export function Sidebar({ user }: Props) {
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [tags, setTags] = useState<Tag[]>([])
+export function Sidebar({ user, tags, tasks }: Props) {
   const { push } = useRouter()
   const pathname = usePathname()
-
-  const handleGetTasks = async () => {
-    const tasks = await getTasks({})
-
-    setTasks(tasks)
-  }
-
-  const handleGetTags = async () => {
-    const tags = await getTags()
-
-    setTags(tags)
-  }
-
-  useEffect(() => {
-    handleGetTasks()
-    handleGetTags()
-  }, [])
 
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)

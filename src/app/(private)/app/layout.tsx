@@ -2,6 +2,8 @@ import { Menu } from 'lucide-react'
 import type { Metadata } from 'next'
 import { ReactNode } from 'react'
 
+import { getTags } from '@/actions/tag/actions'
+import { getTasks } from '@/actions/task/actions'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Sheet, SheetTrigger } from '@/components/ui/sheet'
@@ -20,10 +22,12 @@ export default async function RootLayout({
   children: ReactNode
 }>) {
   const session = await auth()
+  const tasks = await getTasks({})
+  const tags = await getTags()
 
   return (
     <main className="flex h-screen w-full">
-      <Sidebar user={session?.user} />
+      <Sidebar user={session?.user} tasks={tasks} tags={tags} />
 
       <ScrollArea className="no-scrollbar h-screen flex-1">
         <div className="px-4 py-6 lg:px-8 lg:py-8">
