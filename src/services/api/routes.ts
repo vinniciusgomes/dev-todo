@@ -1,12 +1,9 @@
 import { http } from '@/lib/http'
 
 import {
-  CreateTagBody,
   CreateTaskBody,
-  GetTagsResponse,
   GetTasksQuery,
   GetTasksResponse,
-  UpdateTagBody,
   UpdateTaskBody,
 } from './types'
 
@@ -36,24 +33,6 @@ export async function createTask(body: CreateTaskBody) {
 
 export async function updateTask(body: UpdateTaskBody) {
   const response = await http.put('/tasks', body)
-
-  return response.data
-}
-
-export async function createTag(body: CreateTagBody) {
-  const response = await http.post('/tags', body)
-
-  return response.data
-}
-
-export async function getTags() {
-  const response = await http.get<GetTagsResponse>('/tags')
-
-  return response.data
-}
-
-export async function updateTag(body: UpdateTagBody) {
-  const response = await http.put('/tags', body)
 
   return response.data
 }

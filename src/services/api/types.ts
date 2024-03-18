@@ -24,16 +24,3 @@ export interface UpdateTaskBody {
   completed?: boolean
   deleted?: boolean
 }
-
-export interface CreateTagBody {
-  name: string
-  color: string
-}
-
-export type GetTagsResponse = Tag[]
-
-export interface UpdateTagBody {
-  id: string
-  name?: string
-  color?: string
-}

@@ -1,9 +1,10 @@
 'use client'
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { createTag } from '@/actions/tag/actions'
 import { Button } from '@/components/ui/button'
 import {
   DialogContent,
@@ -24,9 +25,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { toast } from '@/components/ui/use-toast'
-import { createTag } from '@/services/api/routes'
-import { GetTagsResponse } from '@/services/api/types'
 
 const tailwindColorList = [
   { name: 'Red', value: 'bg-red-500' },
@@ -58,55 +56,12 @@ const tagFormSchema = z.object({
 type TagForm = z.infer<typeof tagFormSchema>
 
 export function CreateTagDialog() {
-  const queryClient = useQueryClient()
   const form = useForm<TagForm>()
-
-  function updateTagListCache({ color, name }: TagForm) {
-    const cached = queryClient.getQueryData<GetTagsResponse>(['tags'])
-
-    if (cached) {
-      queryClient.setQueryData<GetTagsResponse>(
-        ['tags'],
-        [
-          ...cached,
-          {
-            name,
-            color,
-          },
-        ],
-      )
-    }
-
-    return { cached }
-  }
-
-  const { mutateAsync: saveTag } = useMutation({
-    mutationFn: createTag,
-    onMutate({ color, name }) {
-      const { cached } = updateTagListCache({
-        color,
-        name,
-      })
-
-      toast({
-        title: 'Task created',
-        description: 'Your task has been created.',
-      })
-
-      form.reset()
-
-      return { previousTags: cached }
-    },
-    onError() {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong.',
-      })
-    },
-  })
+  const router = useRouter()
 
   const onSubmit = async (data: TagForm) => {
-    saveTag(data)
+    await createTag(data)
+    router.refresh()
   }
 
   return (

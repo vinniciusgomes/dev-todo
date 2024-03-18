@@ -12,7 +12,9 @@ import {
 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { Session } from 'next-auth'
+import { useEffect, useState } from 'react'
 
+import { getTags } from '@/actions/tag/actions'
 import { Icons } from '@/components/icon'
 import { Button } from '@/components/ui/button'
 import {
@@ -21,7 +23,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { getTags, getTasks } from '@/services/api/routes'
+import { getTasks } from '@/services/api/routes'
+import { Tag } from '@/types'
 
 import { SettingsMenu } from './settings-menu'
 import { SidebarNavItem } from './sidebar-nav-item'
@@ -34,16 +37,11 @@ type Props = {
 export function Sidebar({ user }: Props) {
   const { push } = useRouter()
   const pathname = usePathname()
+  const [tags, setTags] = useState<Tag[]>([])
 
   const { data: tasks } = useQuery({
     queryKey: ['tasks'],
     queryFn: () => getTasks({}),
-  })
-
-  const { data: tags } = useQuery({
-    queryKey: ['tags'],
-    queryFn: getTags,
-    staleTime: Infinity,
   })
 
   const tomorrow = new Date()
@@ -72,6 +70,18 @@ export function Sidebar({ user }: Props) {
     tasks?.filter((task) => task.completed && !task.deleted).length || 0
 
   const trashTasksCount = tasks?.filter((task) => task.deleted).length || 0
+
+  const handleGetTags = async () => {
+    const tags = await getTags()
+
+    if (!tags) return
+
+    setTags(tags)
+  }
+
+  useEffect(() => {
+    handleGetTags()
+  }, [])
 
   return (
     <aside className="hidden w-full max-w-[280px] flex-col justify-between border-r px-6 py-6 lg:flex">
