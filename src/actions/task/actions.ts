@@ -82,12 +82,39 @@ export async function createTask(data: z.infer<typeof createTaskSchema>) {
 }
 
 export async function updateTask(data: z.infer<typeof updateTaskSchema>) {
-  await prisma.task.update({
+  const session = await auth()
+
+  const taskId = data.id
+
+  const updatedData = {
+    title: data.title,
+    priority: data.priority,
+    dueDate: data.dueDate,
+    completed: data.completed,
+    deleted: data.deleted,
+  }
+
+  const existingTask = await prisma.task.findFirst({
     where: {
-      id: data.id,
-    },
-    data: {
-      completed: data.completed,
+      id: taskId,
+      user: { email: session?.user?.email },
     },
   })
+
+  if (!existingTask) {
+    return {
+      error: null,
+      data: 'Task not found',
+    }
+  }
+
+  await prisma.task.update({
+    where: { id: taskId },
+    data: updatedData,
+  })
+
+  return {
+    error: null,
+    data: 'Task updated successfully',
+  }
 }

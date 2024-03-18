@@ -1,14 +1,14 @@
-'use client'
-
 import { format } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 import { Eye } from 'lucide-react'
-import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
+import { updateTask } from '@/actions/task/actions'
 import { Icons } from '@/components/icon'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { toast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
 import { Task } from '@/types'
 
@@ -27,13 +27,25 @@ const priorityMap = {
   },
 }
 
-export function TaskItem({ task }: Props) {
-  const [isCompleted, setIsCompleted] = useState<boolean | 'indeterminate'>(
-    !!task.completed,
-  )
+export async function TaskItem({ task }: Props) {
+  const router = useRouter()
 
   const handleUpdateTask = async () => {
-    console.log('update')
+    await updateTask({
+      id: task.id,
+      title: task.title,
+      priority: task.priority ?? undefined,
+      dueDate: task.dueDate,
+      completed: !task.completed,
+      deleted: task.deleted,
+    })
+
+    toast({
+      title: 'Task updated',
+      description: 'Your task has been updated.',
+    })
+
+    router.refresh()
   }
 
   return (
@@ -41,21 +53,16 @@ export function TaskItem({ task }: Props) {
       <div className="items-top flex space-x-3">
         <Checkbox
           id="terms1"
-          checked={isCompleted}
+          checked={task.completed}
           className="h-4 w-4"
-          onCheckedChange={(checked) => {
-            setIsCompleted(checked)
-            if (task.id) {
-              handleUpdateTask()
-            }
-          }}
+          onCheckedChange={handleUpdateTask}
         />
         <div className="grid gap-1.5 leading-none">
           <label
             htmlFor="terms1"
             className={cn(
               'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
-              isCompleted && 'text-muted-foreground line-through opacity-50',
+              task.completed && 'text-muted-foreground line-through opacity-50',
             )}
           >
             {task.title}
@@ -64,7 +71,8 @@ export function TaskItem({ task }: Props) {
             <p
               className={cn(
                 'max-w-[700px] truncate text-sm text-muted-foreground',
-                isCompleted && 'text-muted-foreground line-through opacity-50',
+                task.completed &&
+                  'text-muted-foreground line-through opacity-50',
               )}
             >
               {task.description}

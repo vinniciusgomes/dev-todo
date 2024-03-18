@@ -17,7 +17,7 @@ export const createTaskSchema = z.object({
 export const updateTaskSchema = z.object({
   id: z.string(),
   title: z.string(),
-  priority: z.enum(['none', 'low', 'medium', 'high', 'urgent']),
+  priority: z.enum(['none', 'low', 'medium', 'high', 'urgent']).optional(),
   dueDate: z.string(),
   completed: z.boolean(),
   deleted: z.boolean(),
