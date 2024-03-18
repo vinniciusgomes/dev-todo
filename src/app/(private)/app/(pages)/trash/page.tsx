@@ -1,10 +1,9 @@
 import { getTasks } from '@/actions/task/actions'
+import { NewTask } from '@/app/(private)/app/_components/task/new-task'
+import { TaskList } from '@/app/(private)/app/_components/task/task-list'
+import { formatDueDate } from '@/app/(private)/app/_utils/formatDueDate'
+import { sortByDate } from '@/app/(private)/app/_utils/sortTasks'
 import { Separator } from '@/components/ui/separator'
-
-import { NewTask } from '../../_components/task/new-task'
-import { TaskList } from '../../_components/task/task-list'
-import { formatDueDate } from '../../_utils/formatDueDate'
-import { sortByDate } from '../../_utils/sortTasks'
 
 export default async function Trash() {
   const tasks = await getTasks({

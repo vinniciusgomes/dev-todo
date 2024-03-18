@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react'
 
 import { getTags } from '@/actions/tag/actions'
 import { getTasks } from '@/actions/task/actions'
+import { normalizeTagUrl } from '@/app/(private)/app/_utils/normalizeTagUrl'
 import { Icons } from '@/components/icon'
 import { Button } from '@/components/ui/button'
 import {
@@ -25,7 +26,6 @@ import {
 } from '@/components/ui/tooltip'
 import { Tag, Task } from '@/types'
 
-import { normalizeTagUrl } from '../../_utils/normalizeTagUrl'
 import { SettingsMenu } from './settings-menu'
 import { SidebarNavItem } from './sidebar-nav-item'
 import { SidebarTag } from './sidebar-tag'
