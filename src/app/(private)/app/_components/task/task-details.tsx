@@ -57,31 +57,11 @@ export function TaskDetails({ task }: Props) {
     handleGetTags()
   }, [])
 
-  const handleUpdateTask = async ({
-    completed = false,
-    deleted = false,
-    id,
-    title,
-    priority = undefined,
-    dueDate,
-  }: UpdateTaskBody) => {
-    if (!id) {
-      return toast({
-        title: 'Error',
-        description: 'Task ID is required',
-      })
-    }
-
-    const body = {
-      completed,
-      deleted,
-      id,
-      title,
-      dueDate: dueDate ? new Date(dueDate).toISOString() : undefined,
-      priority,
-    }
-
-    await updateTask(body)
+  const handleUpdateTask = async ({ ...data }: UpdateTaskBody) => {
+    await updateTask({
+      ...data,
+      id: task.id,
+    })
 
     toast({
       title: 'Task updated',
@@ -212,7 +192,6 @@ export function TaskDetails({ task }: Props) {
                 <Calendar
                   mode="single"
                   selected={new Date(task.dueDate)}
-                  // onSelect={setDate}
                   initialFocus
                 />
               </PopoverContent>
@@ -227,8 +206,7 @@ export function TaskDetails({ task }: Props) {
           <Button
             variant="ghost"
             onClick={() =>
-              updateTask({
-                id: task.id,
+              handleUpdateTask({
                 deleted: !task.deleted,
               })
             }
