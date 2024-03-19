@@ -20,7 +20,7 @@ export default async function Page() {
       <div className="mb-[-16px]">
         <PhraseOfTheDay />
       </div>
-      <div className="top-0 z-50 bg-background pt-4 lg:sticky">
+      <div className="top-0 z-40 bg-background pt-4 lg:sticky">
         <NewTask />
       </div>
       <div className="grid gap-6">
@@ -33,18 +33,17 @@ export default async function Page() {
             return null
           }
 
+          const listDescription =
+            dueDate === 'No date' || dueDate === 'Overdue'
+              ? ''
+              : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
+
           return (
             <div key={dueDate}>
               <TaskList
-                listName={
-                  dueDate === 'No date' ? 'No date' : formatDueDate(dueDate)
-                }
-                listDescription={
-                  dueDate === 'No date'
-                    ? ''
-                    : `All things to-do on ${formatDueDate(dueDate).toLocaleLowerCase()}`
-                }
-                defaultOpen
+                listName={formatDueDate(dueDate)}
+                listDescription={listDescription}
+                defaultOpen={dueDate !== 'Overdue'}
                 tasks={tasksWithoutCompletedAndDeleted}
               />
 
