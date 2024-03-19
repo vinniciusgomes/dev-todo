@@ -11,9 +11,12 @@ import { Icons } from '@/components/icon'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Sheet, SheetTrigger } from '@/components/ui/sheet'
 import { toast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
 import { Task } from '@/types'
+
+import { TaskDetails } from './task-details'
 
 type Props = {
   task: Task
@@ -55,61 +58,67 @@ export function TaskItem({ task }: Props) {
   }
 
   return (
-    <div className="grid w-full items-center justify-between gap-4 rounded-md p-4 px-0 lg:flex lg:px-5">
-      <div className="items-top flex space-x-3">
-        <Checkbox
-          id="terms1"
-          checked={completed}
-          className="h-4 w-4"
-          onCheckedChange={handleUpdateTask}
-        />
-        <div className="grid gap-1.5 leading-none">
-          <label
-            htmlFor="terms1"
-            className={cn(
-              'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
-              completed && 'text-muted-foreground line-through opacity-50',
-            )}
-          >
-            {task.title}
-          </label>
-          {task.description && (
-            <p
+    <Sheet>
+      <div className="grid w-full items-center justify-between gap-4 rounded-md p-4 px-0 lg:flex lg:px-5">
+        <div className="items-top flex space-x-3">
+          <Checkbox
+            id="terms1"
+            checked={completed}
+            className="h-4 w-4"
+            onCheckedChange={handleUpdateTask}
+          />
+          <div className="grid gap-1.5 leading-none">
+            <label
+              htmlFor="terms1"
               className={cn(
-                'max-w-[700px] truncate text-sm text-muted-foreground',
+                'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
                 completed && 'text-muted-foreground line-through opacity-50',
               )}
             >
-              {task.description}
-            </p>
+              {task.title}
+            </label>
+            {task.description && (
+              <p
+                className={cn(
+                  'max-w-[700px] truncate text-sm text-muted-foreground',
+                  completed && 'text-muted-foreground line-through opacity-50',
+                )}
+              >
+                {task.description}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {priorityMap[task.priority || 'none'].icon}
+
+          {task.dueDate && (
+            <Badge variant="secondary">
+              {format(utcToZonedTime(task.dueDate, 'UTC'), 'dd MMM yyyy')}
+            </Badge>
           )}
+          {task.tag?.id && (
+            <Badge
+              className={cn(
+                'shadow-none',
+                task.tag.color,
+                `hover:${task.tag.color}`,
+              )}
+            >
+              {task.tag?.name}
+            </Badge>
+          )}
+
+          <SheetTrigger asChild>
+            <Button size="text" variant="text">
+              <Eye className="h-4 w-4" />
+            </Button>
+          </SheetTrigger>
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
-        {priorityMap[task.priority || 'none'].icon}
-
-        {task.dueDate && (
-          <Badge variant="secondary">
-            {format(utcToZonedTime(task.dueDate, 'UTC'), 'dd MMM yyyy')}
-          </Badge>
-        )}
-        {task.tag?.id && (
-          <Badge
-            className={cn(
-              'shadow-none',
-              task.tag.color,
-              `hover:${task.tag.color}`,
-            )}
-          >
-            {task.tag?.name}
-          </Badge>
-        )}
-
-        <Button size="text" variant="text">
-          <Eye className="h-4 w-4" />
-        </Button>
-      </div>
-    </div>
+      <TaskDetails task={task} />
+    </Sheet>
   )
 }

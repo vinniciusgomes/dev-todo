@@ -16,10 +16,10 @@ export const createTaskSchema = z.object({
 
 export const updateTaskSchema = z.object({
   id: z.string(),
-  title: z.string(),
+  title: z.string().optional(),
   priority: z.enum(['none', 'low', 'medium', 'high', 'urgent']).optional(),
-  dueDate: z.string(),
-  completed: z.boolean(),
-  deleted: z.boolean(),
+  dueDate: z.string().optional(),
+  completed: z.boolean().optional(),
+  deleted: z.boolean().optional(),
   tagId: z.string().optional(),
 })

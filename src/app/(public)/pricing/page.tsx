@@ -1,7 +1,7 @@
 import { Check } from 'lucide-react'
 
-import { Footer } from '@/components/lp/footer'
-import { Header } from '@/components/lp/header'
+import { Footer } from '@/components/landing-page/footer'
+import { Header } from '@/components/landing-page/header'
 import { Button } from '@/components/ui/button'
 
 export default function Pricing() {

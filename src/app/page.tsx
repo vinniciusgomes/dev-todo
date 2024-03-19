@@ -3,10 +3,10 @@
 import { useTheme } from 'next-themes'
 import { useEffect } from 'react'
 
-import { Footer } from '@/components/lp/footer'
-import { Header } from '@/components/lp/header'
-import { Hero } from '@/components/lp/hero'
-import { Product } from '@/components/lp/product'
+import { Footer } from '@/components/landing-page/footer'
+import { Header } from '@/components/landing-page/header'
+import { Hero } from '@/components/landing-page/hero'
+import { Product } from '@/components/landing-page/product'
 
 export default function Home() {
   const { setTheme } = useTheme()

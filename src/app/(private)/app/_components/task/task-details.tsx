@@ -1,11 +1,11 @@
-'use client'
-
 import { format } from 'date-fns'
-import { CalendarIcon, Plus } from 'lucide-react'
-import { useState } from 'react'
+import { CalendarIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
+import { getTags } from '@/actions/tag/actions'
+import { updateTask } from '@/actions/task/actions'
 import { Icons } from '@/components/icon'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -24,48 +24,109 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { SheetContent, SheetFooter } from '@/components/ui/sheet'
 import { Textarea } from '@/components/ui/textarea'
+import { toast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
+import { Tag, Task } from '@/types'
 
-export function TaskDetails() {
-  const [isCompleted, setIsCompleted] = useState<boolean | 'indeterminate'>(
-    false,
-  )
-  const [date, setDate] = useState<Date | undefined>(new Date())
+type Props = {
+  task: Task
+}
+
+type UpdateTaskBody = {
+  completed?: boolean
+  deleted?: boolean
+  id?: string
+  title?: string
+  priority?: 'none' | 'low' | 'medium' | 'high' | 'urgent'
+  dueDate?: string
+}
+
+export function TaskDetails({ task }: Props) {
+  const [tags, setTags] = useState<Tag[]>([])
+  const router = useRouter()
+
+  const handleGetTags = async () => {
+    const tags = await getTags()
+
+    setTags(tags)
+  }
+
+  useEffect(() => {
+    handleGetTags()
+  }, [])
+
+  const handleUpdateTask = async ({
+    completed = false,
+    deleted = false,
+    id,
+    title,
+    priority = undefined,
+    dueDate,
+  }: UpdateTaskBody) => {
+    if (!id) {
+      return toast({
+        title: 'Error',
+        description: 'Task ID is required',
+      })
+    }
+
+    const body = {
+      completed,
+      deleted,
+      id,
+      title,
+      dueDate: dueDate ? new Date(dueDate).toISOString() : undefined,
+      priority,
+    }
+
+    await updateTask(body)
+
+    toast({
+      title: 'Task updated',
+      description: 'Your task has been updated.',
+    })
+
+    router.refresh()
+  }
+
+  if (!task.id) {
+    return null
+  }
 
   return (
-    <div className="flex w-full max-w-[380px] flex-col justify-between border-l px-6 py-6">
+    <SheetContent className="flex flex-col justify-between border-l px-6 py-6">
       <div className="flex flex-col gap-6">
         <div className="items-top flex space-x-3">
           <Checkbox
             id="terms1"
-            checked={isCompleted}
+            checked={task.completed}
             className="h-4 w-4"
-            onCheckedChange={(checked) => setIsCompleted(checked)}
+            onCheckedChange={(checked) =>
+              handleUpdateTask({
+                completed: checked === true,
+                deleted: task.deleted,
+                id: task.id,
+                title: task.title,
+                priority: task.priority ?? undefined,
+                dueDate: task.dueDate,
+              })
+            }
           />
           <Input
             className={cn(
               'h-max border-none p-0 text-sm font-medium leading-none shadow-none focus:ring-0 focus:ring-offset-0 peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
-              isCompleted && 'text-muted-foreground line-through opacity-50',
+              task.completed && 'text-muted-foreground line-through opacity-50',
             )}
-            value=' Read "The Pragmatic Programmer"'
+            value={task.title}
           />
         </div>
 
         <div className="grid gap-2">
-          <div className="flex h-9 items-center gap-2">
-            <Badge className="bg-purple-400">Work</Badge>
-
-            <div className="inline-flex items-center gap-1 rounded-md border border-dashed bg-transparent px-2.5 py-0.5">
-              <Plus className="h-3 w-3 text-muted-foreground" />
-              <span className="text-xs font-semibold text-muted-foreground">
-                Add tag
-              </span>
-            </div>
-          </div>
           <div className="flex h-9 items-center justify-between">
             <span className="text-sm text-muted-foreground">Priority</span>
-            <Select defaultValue="none">
+            <Select defaultValue="none" value={task.priority ?? undefined}>
               <SelectTrigger className="w-max border-none p-0 shadow-none outline-none focus:ring-0">
                 <SelectValue placeholder="Select a priority" />
               </SelectTrigger>
@@ -107,21 +168,25 @@ export function TaskDetails() {
             </Select>
           </div>
           <div className="flex h-9 items-center justify-between">
-            <span className="text-sm text-muted-foreground">List</span>
-            <Select defaultValue="today">
+            <span className="text-sm text-muted-foreground">Tag</span>
+            <Select value={task.tag?.id ?? undefined}>
               <SelectTrigger className="w-max border-none p-0 shadow-none outline-none focus:ring-0">
-                <SelectValue placeholder="Select a list" />
+                <SelectValue placeholder="Select a tag" />
               </SelectTrigger>
+
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Lists</SelectLabel>
-                  <SelectItem value="today">
-                    <div className="flex items-center">
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-
-                      <span>Today</span>
-                    </div>
-                  </SelectItem>
+                  <SelectLabel>Tag</SelectLabel>
+                  {tags?.map((tag) => (
+                    <SelectItem value={tag.id ?? 'none'} key={tag.id}>
+                      <div className="flex items-center gap-1.5">
+                        <div
+                          className={cn('h-2 w-2 rounded-full', tag.color)}
+                        />
+                        {tag.name}
+                      </div>
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -136,14 +201,18 @@ export function TaskDetails() {
                   className="justify-start border-none text-left font-normal shadow-none focus:ring-0"
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, 'PPP') : <span>Pick a date</span>}
+                  {task.dueDate ? (
+                    format(new Date(task.dueDate), 'PPP')
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
-                  selected={date}
-                  onSelect={setDate}
+                  selected={new Date(task.dueDate)}
+                  // onSelect={setDate}
                   initialFocus
                 />
               </PopoverContent>
@@ -153,9 +222,21 @@ export function TaskDetails() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Button variant="ghost">Delete</Button>
-      </div>
-    </div>
+      <SheetFooter>
+        <div className="flex flex-col gap-2">
+          <Button
+            variant="ghost"
+            onClick={() =>
+              updateTask({
+                id: task.id,
+                deleted: !task.deleted,
+              })
+            }
+          >
+            {task.deleted ? 'Restore' : 'Delete'} task
+          </Button>
+        </div>
+      </SheetFooter>
+    </SheetContent>
   )
 }
