@@ -7,7 +7,6 @@ import { formatDueDate } from '@/app/(private)/app/_utils/formatDueDate'
 import { normalizeTagUrl } from '@/app/(private)/app/_utils/normalizeTagUrl'
 import { sortByDate } from '@/app/(private)/app/_utils/sortTasks'
 import { Separator } from '@/components/ui/separator'
-import { Tag } from '@/types'
 
 export default async function Tag({ params }: { params: { tag: string } }) {
   const allTags = await getTags()
