@@ -6,16 +6,6 @@ import EmailProvider from 'next-auth/providers/resend'
 
 import { prisma } from '@/services/database'
 
-const url = process.env.NEXT_PUBLIC_APP_URL
-const { hostname } = new URL(url ?? '')
-const ROOT_DOMAIN = hostname
-  .split('.')
-  .reverse()
-  .splice(0, 2)
-  .reverse()
-  .join('.')
-const isSecure = process.env.NODE_ENV !== 'development'
-
 export const {
   handlers: { GET, POST },
   auth,
@@ -46,20 +36,4 @@ export const {
       from: process.env.EMAIL_FROM,
     }),
   ],
-
-  // Adicionando para funcionar em subdomínios
-  cookies: {
-    sessionToken: {
-      name: isSecure
-        ? `__Secure-next-auth.session-token`
-        : `next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        domain: `.${ROOT_DOMAIN}`,
-        secure: isSecure,
-      },
-    },
-  },
 })
