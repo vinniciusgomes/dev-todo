@@ -1,6 +1,10 @@
 import { differenceInDays, format, isTomorrow, isYesterday } from 'date-fns'
 
 export function formatDueDate(date: string): string {
+  if (date === 'No date' || date === 'Overdue') {
+    return date
+  }
+
   const today = new Date()
   const dueDate = new Date(date)
   const localDueDate = new Date(
