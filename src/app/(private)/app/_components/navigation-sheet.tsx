@@ -105,13 +105,6 @@ export function NavigationSheet({ tasks, tags }: Props) {
                 icon={Sunrise}
               />
               <SidebarNavItem
-                label="Next 7 days"
-                onClick={() => push('/app/next-7-days')}
-                count={nextSevenDaysTasksCount}
-                active={pathname === '/app/next-7-days'}
-                icon={CalendarDays}
-              />
-              <SidebarNavItem
                 label="Completed"
                 onClick={() => push('/app/completed')}
                 count={completedTasksCount}
