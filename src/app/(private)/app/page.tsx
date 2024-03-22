@@ -1,6 +1,5 @@
 import { getTasks } from '@/actions/task/actions'
 import { Separator } from '@/components/ui/separator'
-import { getUrl } from '@/lib/get-url'
 import { auth } from '@/services/auth'
 
 import { PhraseOfTheDay } from './_components/phrase-of-the-day'
@@ -14,8 +13,6 @@ export default async function Page() {
   const session = await auth()
   const tasks = await getTasks({})
   const sortedTasks = sortByDate(tasks)
-
-  console.log(new URL(getUrl('/app')))
 
   return (
     <div className="flex w-full flex-col gap-10">

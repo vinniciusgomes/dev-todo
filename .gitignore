@@ -35,3 +35,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env
+
+# Auto Generated PWA files
+**/public/sw.js
+**/public/swe-worker-development.js
+**/public/workbox-*.js
+**/public/worker-*.js
+**/public/sw.js.map
+**/public/workbox-*.js.map
+**/public/worker-*.js.map

@@ -1,14 +1,25 @@
-/** @type {import('next').NextConfig} */
+import withPWA from '@ducanh2912/next-pwa'
+
 const nextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
         fs: false,
-      };
+      }
     }
 
-    return config;
+    return config
   },
-};
+}
 
-export default nextConfig;
+export default withPWA({
+  ...nextConfig,
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  swcMinify: true,
+  dest: 'public',
+  workboxOptions: {
+    disableDevLogs: true,
+  },
+})
