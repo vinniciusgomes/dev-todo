@@ -17,7 +17,7 @@ export default async function Page() {
   return (
     <div className="flex w-full flex-col gap-10">
       <WelcomeText userName={session?.user?.name || ''} />
-      <div className="mb-[-16px]">
+      <div className="mb-[-16px] hidden md:block">
         <PhraseOfTheDay />
       </div>
       <div className="top-0 z-40 bg-background pt-4 lg:sticky">
