@@ -3,7 +3,6 @@
 import { format } from 'date-fns'
 import {
   Calendar,
-  CalendarDays,
   CheckSquare,
   GalleryVerticalEnd,
   Plus,
@@ -35,7 +34,6 @@ export function NavigationSheet({ tasks, tags }: Props) {
   const { push } = useRouter()
   const pathname = usePathname()
 
-  const today = new Date()
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
 
@@ -51,17 +49,6 @@ export function NavigationSheet({ tasks, tags }: Props) {
     tasks?.filter(
       (task) =>
         task?.dueDate === format(tomorrow, 'yyyy-MM-dd') &&
-        !task.completed &&
-        !task.deleted,
-    ).length || 0
-
-  const nextSevenDaysTasksCount =
-    tasks?.filter(
-      (task) =>
-        task.dueDate &&
-        new Date(task.dueDate) <=
-          new Date(today.setDate(today.getDate() + 7)) &&
-        new Date(task.dueDate) >= new Date() &&
         !task.completed &&
         !task.deleted,
     ).length || 0
