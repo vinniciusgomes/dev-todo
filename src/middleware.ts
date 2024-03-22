@@ -5,7 +5,10 @@ import { getUrl } from '@/lib/get-url'
 const PRIVATE_PATHS = ['/app', '/settings']
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('authjs.session-token')
+  const token =
+    process.env.VERCEL_ENV === 'production'
+      ? request.cookies.get('__Secure-authjs.session-token')
+      : request.cookies.get('authjs.session-token')
   const pathname = request.nextUrl.pathname
 
   if (pathname === '/auth' && token) {
