@@ -7,7 +7,6 @@ import { Footer } from '@/components/landing-page/footer'
 import { Header } from '@/components/landing-page/header'
 import { Hero } from '@/components/landing-page/hero'
 import { Product } from '@/components/landing-page/product'
-import { Testimonials } from '@/components/landing-page/testimonials'
 
 export default function Home() {
   const { setTheme } = useTheme()
@@ -23,8 +22,6 @@ export default function Home() {
       <Hero />
 
       <Product />
-
-      <Testimonials />
 
       <Footer />
     </main>
