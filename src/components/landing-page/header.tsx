@@ -33,7 +33,7 @@ export const Header = () => {
         isScrolled ? 'border-border' : 'border-transparent bg-transparent',
       )}
     >
-      <div className="mx-auto h-12 max-w-6xl px-4 sm:px-6  lg:px-8 ">
+      <div className="mx-auto h-14 max-w-6xl px-4 sm:px-6 lg:px-8">
         <nav className="flex h-full items-center justify-between">
           <Link href="/">
             <div className="flex items-center gap-2">

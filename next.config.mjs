@@ -22,4 +22,12 @@ export default withPWA({
   workboxOptions: {
     disableDevLogs: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
 })

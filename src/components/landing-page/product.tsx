@@ -1,3 +1,7 @@
+import { Copy } from 'lucide-react'
+
+import { BentoGrid, BentoGridItem } from '../ui/bento-grid'
+
 export const Line = () => (
   <div
     className="absolute left-[calc(50%+20px)] top-[20px] hidden h-px w-[calc(100%-40px)] group-last:hidden sm:block"
@@ -6,6 +10,44 @@ export const Line = () => (
     }}
   />
 )
+
+const Skeleton = () => (
+  <div className="flex h-full min-h-[6rem] w-full flex-1 rounded-xl bg-gradient-to-br from-neutral-200 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800"></div>
+)
+
+const items = [
+  {
+    title: 'The Dawn of Innovation',
+    description: 'Explore the birth of groundbreaking ideas and inventions.',
+    header: <Skeleton />,
+    icon: <Copy className="h-4 w-4 text-neutral-500" />,
+  },
+  {
+    title: 'The Digital Revolution',
+    description: 'Dive into the transformative power of technology.',
+    header: <Skeleton />,
+    icon: <Copy className="h-4 w-4 text-neutral-500" />,
+  },
+  {
+    title: 'The Art of Design',
+    description: 'Discover the beauty of thoughtful and functional design.',
+    header: <Skeleton />,
+    icon: <Copy className="h-4 w-4 text-neutral-500" />,
+  },
+  {
+    title: 'The Power of Communication',
+    description:
+      'Understand the impact of effective communication in our lives.',
+    header: <Skeleton />,
+    icon: <Copy className="h-4 w-4 text-neutral-500" />,
+  },
+  {
+    title: 'The Pursuit of Knowledge',
+    description: 'Join the quest for understanding and enlightenment.',
+    header: <Skeleton />,
+    icon: <Copy className="h-4 w-4 text-neutral-500" />,
+  },
+]
 
 export const Product = () => {
   return (
@@ -66,6 +108,32 @@ export const Product = () => {
               <strong>without missing</strong> any important tasks.
             </p>
           </div>
+        </div>
+
+        <div className="mt-24 flex flex-col items-center">
+          <div className="mb-16 max-w-3xl">
+            <h2 className="text-center text-4xl font-bold capitalize text-white">
+              Features
+            </h2>
+            <p className="mt-6 text-center text-muted-foreground">
+              Easily manage your tasks all in one place. Simplify your workflow
+              and stay focused on development. Created by developers for
+              developers.
+            </p>
+          </div>
+
+          <BentoGrid className="w-full">
+            {items.map((item, i) => (
+              <BentoGridItem
+                key={i}
+                title={item.title}
+                description={item.description}
+                header={item.header}
+                icon={item.icon}
+                className={i === 3 || i === 6 ? 'md:col-span-2' : ''}
+              />
+            ))}
+          </BentoGrid>
         </div>
       </div>
     </div>
