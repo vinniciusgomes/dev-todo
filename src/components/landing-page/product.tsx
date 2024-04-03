@@ -1,5 +1,6 @@
 import { Copy } from 'lucide-react'
 
+import { Icons } from '../icon'
 import { BentoGrid, BentoGridItem } from '../ui/bento-grid'
 
 export const Line = () => (
@@ -111,9 +112,11 @@ export const Product = () => {
         </div>
 
         <div className="mt-24 flex flex-col items-center">
-          <div className="mb-16 max-w-3xl">
-            <h2 className="text-center text-4xl font-bold capitalize text-white">
-              Features
+          <div className="mb-16 flex max-w-3xl flex-col items-center justify-center">
+            <Icons.appIcon className="my-auto mb-16 h-32 w-32" />
+            <h2 className="text-gradient text-center text-6xl font-bold capitalize">
+              Built for the future. <br />
+              Available today.
             </h2>
             <p className="mt-6 text-center text-muted-foreground">
               Easily manage your tasks all in one place. Simplify your workflow
