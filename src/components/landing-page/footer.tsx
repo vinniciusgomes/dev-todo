@@ -6,7 +6,7 @@ export const Footer = () => {
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:flex md:items-center md:justify-between md:py-12 lg:px-8">
         <div className="flex items-center justify-center gap-4 md:order-3">
           <a
-            href="https://github.com/nuxtlabs"
+            href="https://github.com/vinniciusgomes/dev-todo"
             rel="noopener noreferrer"
             target="_blank"
             className="focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 inline-flex flex-shrink-0 items-center gap-x-2 rounded-md text-sm font-medium text-gray-500 underline-offset-4 hover:text-gray-700 hover:underline focus:outline-none focus-visible:outline-0 focus-visible:ring-2 focus-visible:ring-inset disabled:cursor-not-allowed disabled:opacity-75 dark:text-gray-400 dark:hover:text-gray-200"
@@ -17,62 +17,20 @@ export const Footer = () => {
         <ul className="mt-4 flex items-center justify-center gap-x-4 overflow-x-auto md:order-2 md:mt-0 lg:gap-x-6">
           <li className="">
             <a
-              href="/docs"
-              className="text-sm text-muted-foreground transition-colors hover:text-white focus:text-white focus:outline-none"
-            >
-              Guide
-            </a>
-          </li>
-          <li className="">
-            <a
-              href="/changelog"
-              className="text-sm text-muted-foreground transition-colors hover:text-white focus:text-white focus:outline-none"
-            >
-              Changelog
-            </a>
-          </li>
-          <li className="">
-            <a
-              href="/pricing"
-              className="text-sm text-muted-foreground transition-colors hover:text-white focus:text-white focus:outline-none"
-            >
-              Pricing
-            </a>
-          </li>
-          <li className="hidden sm:block">
-            <a
-              href="/extension"
-              className="hidden text-sm text-muted-foreground hover:text-white focus:text-white focus:outline-none sm:block"
-            >
-              Extension
-            </a>
-          </li>
-          <li className="hidden sm:block">
-            <a
-              href="/download"
-              className="hidden text-sm text-muted-foreground hover:text-white focus:text-white focus:outline-none sm:block"
-            >
-              Download
-            </a>
-          </li>
-          <li className="">
-            <a
-              href="/cguv.pdf"
-              rel="noopener noreferrer"
+              href="https://vinniciusgomes.dev"
               target="_blank"
               className="text-sm text-muted-foreground transition-colors hover:text-white focus:text-white focus:outline-none"
             >
-              Terms
+              VG Labs
             </a>
           </li>
           <li className="">
             <a
-              href="https://status.volta.net"
-              rel="noopener noreferrer"
+              href="https://github.com/vinniciusgomes/dev-todo"
               target="_blank"
               className="text-sm text-muted-foreground transition-colors hover:text-white focus:text-white focus:outline-none"
             >
-              Status
+              GitHub
             </a>
           </li>
         </ul>
