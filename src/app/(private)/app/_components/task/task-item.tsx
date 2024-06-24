@@ -69,7 +69,6 @@ export function TaskItem({ task }: Props) {
           />
           <div className="grid gap-1.5 leading-none">
             <label
-              htmlFor="terms1"
               className={cn(
                 'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
                 completed && 'text-muted-foreground line-through opacity-50',

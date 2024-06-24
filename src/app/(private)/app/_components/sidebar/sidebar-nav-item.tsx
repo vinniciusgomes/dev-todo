@@ -37,7 +37,7 @@ export function SidebarNavItem({
         <TooltipTrigger asChild>
           <Button
             className={cn(
-              'flex w-full items-center justify-between ',
+              'flex w-full items-center justify-between',
               active &&
                 'rounded-md bg-primary text-primary-foreground shadow hover:bg-primary/90 hover:text-primary-foreground',
             )}

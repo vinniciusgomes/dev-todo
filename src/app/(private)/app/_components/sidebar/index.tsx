@@ -182,7 +182,7 @@ export function Sidebar({ user, tags, tasks }: Props) {
                     {collapsed ? (
                       <span className="sr-only">Create new tag</span>
                     ) : (
-                      <span className="text-sm ">Create new tag</span>
+                      <span className="text-sm">Create new tag</span>
                     )}
                   </Button>
                 </li>

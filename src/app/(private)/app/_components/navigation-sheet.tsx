@@ -137,7 +137,7 @@ export function NavigationSheet({ tasks, tags }: Props) {
                   onClick={() => push('/settings/tags')}
                 >
                   <Plus className="h-4 w-4" />
-                  <span className="text-sm ">Create new tag</span>
+                  <span className="text-sm">Create new tag</span>
                 </Button>
               </li>
             </ul>

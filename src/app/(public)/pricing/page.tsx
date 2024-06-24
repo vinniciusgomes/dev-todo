@@ -41,19 +41,19 @@ export default function Pricing() {
                     role="list"
                     className="mt-8 space-y-3 text-sm leading-6 text-muted-foreground sm:mt-10"
                   >
-                    <li className="text-mu flex flex items-center gap-x-3">
+                    <li className="text-mu flex items-center gap-x-3">
                       <Check className="h-4 w-4" />
                       Real-time inbox
                     </li>
-                    <li className="text-mu flex flex items-center gap-x-3">
+                    <li className="text-mu flex items-center gap-x-3">
                       <Check className="h-4 w-4" />
                       Unlimited organizations &amp; members
                     </li>
-                    <li className="text-mu flex flex items-center gap-x-3">
+                    <li className="text-mu flex items-center gap-x-3">
                       <Check className="h-4 w-4" />
                       Unlimited public &amp; private repositories
                     </li>
-                    <li className="text-mu flex flex items-center gap-x-3">
+                    <li className="text-mu flex items-center gap-x-3">
                       <Check className="h-4 w-4" />
                       Unlimited issues with automated board, list and timeline
                       views
@@ -89,27 +89,27 @@ export default function Pricing() {
                     role="list"
                     className="mt-8 space-y-3 text-sm leading-6 text-muted-foreground sm:mt-10 lg:mt-6"
                   >
-                    <li className="text-mu flex flex items-center gap-x-3">
+                    <li className="text-mu flex items-center gap-x-3">
                       <Check className="h-4 w-4" />
                       Everything in Free
                     </li>
-                    <li className="text-mu flex flex items-center gap-x-3">
+                    <li className="text-mu flex items-center gap-x-3">
                       <Check className="h-4 w-4" />
                       Roadmap planning
                     </li>
-                    <li className="text-mu flex flex items-center gap-x-3">
+                    <li className="text-mu flex items-center gap-x-3">
                       <Check className="h-4 w-4" />
                       Group repositories in projects
                     </li>
-                    <li className="text-mu flex flex items-center gap-x-3">
+                    <li className="text-mu flex items-center gap-x-3">
                       <Check className="h-4 w-4" />
                       Community leaderboard
                     </li>
-                    <li className="text-mu flex flex items-center gap-x-3">
+                    <li className="text-mu flex items-center gap-x-3">
                       <Check className="h-4 w-4" />
                       Issues insights (soon)
                     </li>
-                    <li className="text-mu flex flex items-center gap-x-3">
+                    <li className="text-mu flex items-center gap-x-3">
                       <Check className="h-4 w-4" />
                       Priority support
                     </li>
